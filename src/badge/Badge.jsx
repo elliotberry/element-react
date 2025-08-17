@@ -1,52 +1,60 @@
-/* @flow */
-
 import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import PropTypes from 'prop-types';
+import { cn, createClassName } from '../utils';
 
-type Props = {
-  children: React.DOM,
-  value: number | string,
-  max: number,
-  isDot: boolean,
-}
+const Badge = React.forwardRef(({
+  children,
+  value,
+  max,
+  isDot = false,
+  className,
+  style,
+  ...props
+}, ref) => {
+  const badgeClassName = cn({
+    'el-badge__content': true,
+    'is-fixed': !!children,
+    'is-dot': !!isDot,
+  });
 
-export default class Badge extends Component {
-  props: Props;
+  let content;
 
-  render(): React.DOM {
-    const { children, value, max, isDot } = this.props;
-    const className = this.classNames({
-      'el-badge__content': true,
-      'is-fixed': !!children,
-      'is-dot': !!isDot,
-    });
-    let content;
-
-    if (isDot) {
-      content = null;
+  if (isDot) {
+    content = null;
+  } else {
+    if (typeof value === 'number' && typeof max === 'number') {
+      content = max < value ? `${max}+` : value;
     } else {
-      if (typeof value === 'number' && typeof max === 'number') {
-        content = max < value ? `${max}+` : value;
-      } else {
-        content = value;
-      }
+      content = value;
     }
-
-    return (
-      <div style={this.style()} className={this.className('el-badge')}>
-        { children }
-        <sup className={ className }>{ content }</sup>
-      </div>
-    )
   }
-}
+
+  return (
+    <div
+      ref={ref}
+      className={createClassName('el-badge', {}, className)}
+      style={style}
+      {...props}
+    >
+      {children}
+      <sup className={badgeClassName}>{content}</sup>
+    </div>
+  );
+});
 
 Badge.propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   max: PropTypes.number,
   isDot: PropTypes.bool,
-}
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
 
 Badge.defaultProps = {
-  isDot: false,
-}
+  isDot: false
+};
+
+Badge.displayName = 'Badge';
+
+export default Badge;

@@ -1,40 +1,65 @@
-/* @flow */
-
 import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import PropTypes from 'prop-types';
+import { cn, createClassName } from '../utils';
 
-export default class Button extends Component {
-  onClick(e: SyntheticEvent<any>): void {
-    if (!this.props.loading) {
-      this.props.onClick && this.props.onClick(e);
+const Button = React.forwardRef(({
+  children,
+  type = 'default',
+  size,
+  icon,
+  nativeType = 'button',
+  loading = false,
+  disabled = false,
+  plain = false,
+  className,
+  style,
+  onClick,
+  ...props
+}, ref) => {
+  const handleClick = (e) => {
+    if (!loading && onClick) {
+      onClick(e);
     }
-  }
+  };
 
-  render(): React.DOM {
-    return (
-      <button style={this.style()} className={this.className('el-button', this.props.type && `el-button--${this.props.type}`, this.props.size && `el-button--${this.props.size}`, {
-          'is-disabled': this.props.disabled,
-          'is-loading': this.props.loading,
-          'is-plain': this.props.plain
-      })} disabled={this.props.disabled} type={this.props.nativeType} onClick={this.onClick.bind(this)}>
-        { this.props.loading && <i className="el-icon-loading" /> }
-        { this.props.icon && !this.props.loading && <i className={`el-icon-${this.props.icon}`} /> }
-        <span>{this.props.children}</span>
-      </button>
-    )
-  }
-}
+  const buttonClassName = createClassName('el-button', {
+    [type]: type !== 'default',
+    [size]: size,
+    disabled,
+    loading,
+    plain
+  }, className);
+
+  return (
+    <button
+      ref={ref}
+      type={nativeType}
+      disabled={disabled}
+      className={buttonClassName}
+      style={style}
+      onClick={handleClick}
+      {...props}
+    >
+      {loading && <i className="el-icon-loading" />}
+      {icon && !loading && <i className={`el-icon-${icon}`} />}
+      <span>{children}</span>
+    </button>
+  );
+});
 
 Button.propTypes = {
+  children: PropTypes.node,
   onClick: PropTypes.func,
-  type: PropTypes.string,
-  size: PropTypes.string,
+  type: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
+  size: PropTypes.oneOf(['large', 'default', 'small', 'mini']),
   icon: PropTypes.string,
-  nativeType: PropTypes.string,
+  nativeType: PropTypes.oneOf(['button', 'submit', 'reset']),
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
-  plain: PropTypes.bool
-}
+  plain: PropTypes.bool,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
 
 Button.defaultProps = {
   type: 'default',
@@ -43,3 +68,7 @@ Button.defaultProps = {
   disabled: false,
   plain: false
 };
+
+Button.displayName = 'Button';
+
+export default Button;

@@ -1,96 +1,102 @@
-/* @flow */
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { cn } from '../utils';
 
-import React from 'react';
-import { Component, PropTypes } from '../../libs';
+const Radio = React.forwardRef(({
+  value,
+  onChange,
+  disabled,
+  checked: controlledChecked,
+  model,
+  children,
+  className,
+  style,
+  ...props
+}, ref) => {
+  const [internalChecked, setInternalChecked] = useState(false);
+  const [focus, setFocus] = useState(false);
 
-type State = {
-  checked: boolean,
-  focus?: boolean
-};
+  const getChecked = (props) => {
+    return props.model === props.value || Boolean(props.checked);
+  };
 
-export default class Radio extends Component {
-  static elementType = 'Radio';
+  const isControlled = 'checked' in props || 'model' in props;
+  const checked = isControlled ? getChecked({ model, checked: controlledChecked }) : internalChecked;
 
-  state: State;
-
-  constructor(props: Object) {
-    super(props);
-
-    this.state = {
-      checked: this.getChecked(props)
-    };
-  }
-
-  componentWillReceiveProps(props: Object) {
-    const checked = this.getChecked(props);
-
-    if (this.state.checked != checked) {
-      this.setState({ checked });
+  useEffect(() => {
+    if (isControlled) {
+      const newChecked = getChecked({ model, checked: controlledChecked });
+      if (internalChecked !== newChecked) {
+        setInternalChecked(newChecked);
+      }
     }
-  }
+  }, [model, controlledChecked, isControlled, internalChecked]);
 
-  onChange(e: SyntheticInputEvent<any>) {
-    const checked = e.target.checked;
+  const handleChange = (e) => {
+    const newChecked = e.target.checked;
 
-    if (checked) {
-      if (this.props.onChange) {
-        this.props.onChange(this.props.value);
+    if (newChecked) {
+      if (onChange) {
+        onChange(value);
       }
     }
 
-    this.setState({ checked });
-  }
+    if (!isControlled) {
+      setInternalChecked(newChecked);
+    }
+  };
 
-  onFocus() {
-    this.setState({
-      focus: true
-    })
-  }
+  const handleFocus = () => {
+    setFocus(true);
+  };
 
-  onBlur() {
-    this.setState({
-      focus: false
-    })
-  }
+  const handleBlur = () => {
+    setFocus(false);
+  };
 
-  getChecked(props: Object): boolean {
-    return props.model == props.value || Boolean(props.checked)
-  }
-
-  render(): React.DOM {
-    const { checked, focus } = this.state;
-    const { disabled, value, children } = this.props;
-
-    return (
-      <label style={this.style()} className={this.className('el-radio')}>
-        <span className={this.classNames({
-          'el-radio__input': true,
+  return (
+    <label
+      ref={ref}
+      className={cn('el-radio', className)}
+      style={style}
+      {...props}
+    >
+      <span
+        className={cn('el-radio__input', {
           'is-checked': checked,
           'is-disabled': disabled,
           'is-focus': focus
-        })}>
-          <span className="el-radio__inner"></span>
-          <input
-            type="radio"
-            className="el-radio__original"
-            checked={checked}
-            disabled={disabled}
-            onChange={this.onChange.bind(this)}
-            onFocus={this.onFocus.bind(this)}
-            onBlur={this.onBlur.bind(this)}
-          />
-        </span>
-        <span className="el-radio__label">
-          {children || value}
-        </span>
-      </label>
-    )
-  }
-}
+        })}
+      >
+        <span className="el-radio__inner" />
+        <input
+          type="radio"
+          className="el-radio__original"
+          checked={checked}
+          disabled={disabled}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </span>
+      <span className="el-radio__label">
+        {children || value}
+      </span>
+    </label>
+  );
+});
 
 Radio.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  checked: PropTypes.bool
-}
+  checked: PropTypes.bool,
+  model: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
+
+Radio.displayName = 'Radio';
+
+export default Radio;

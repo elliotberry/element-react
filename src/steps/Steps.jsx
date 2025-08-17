@@ -1,42 +1,43 @@
-/* @flow */
-
 import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import PropTypes from 'prop-types';
+import { cn, createClassName } from '../utils';
 
-type StatusType = 'wait' | 'process' | 'finish' | 'error' | 'success';
-
-export default class Steps extends Component {
-  static defaultProps = {
-    direction: 'horizontal',
-    finishStatus: 'finish',
-    processStatus: 'process',
-    active: 0
-  };
-
-  calcProgress(status: StatusType, index: number): Object {
+const Steps = React.forwardRef(({
+  children,
+  space,
+  direction = 'horizontal',
+  finishStatus = 'finish',
+  processStatus = 'process',
+  active = 0,
+  className,
+  style,
+  ...props
+}, ref) => {
+  const calcProgress = (status, index) => {
     let step = 100;
-    const style = {};
-    style.transitionDelay = 150 * index + 'ms';
+    const lineStyle = {};
+    lineStyle.transitionDelay = 150 * index + 'ms';
 
-    const nextStatus = this.calStatus(index + 1);
+    const nextStatus = calStatus(index + 1);
     // 前后状态不一致时，并且当前status为完成，statusLine的长度才为50%
     if (nextStatus !== status) {
-      if (status === this.props.finishStatus) {
+      if (status === finishStatus) {
         step = 50;
       } else if (status === 'wait') {
         step = 0;
-        style.transitionDelay = -150 * index + 'ms';
+        lineStyle.transitionDelay = -150 * index + 'ms';
       }
     }
 
-    this.props.direction === 'vertical'
-      ? (style.height = step + '%')
-      : (style.width = step + '%');
-    return style;
-  }
+    if (direction === 'vertical') {
+      lineStyle.height = step + '%';
+    } else {
+      lineStyle.width = step + '%';
+    }
+    return lineStyle;
+  };
 
-  calStatus(index: number): StatusType {
-    const { active, finishStatus, processStatus } = this.props;
+  const calStatus = (index) => {
     let status = 'wait';
 
     if (active > index) {
@@ -46,36 +47,37 @@ export default class Steps extends Component {
     }
 
     return status;
-  }
+  };
 
-  render(): React.DOM {
-    const { children, space, direction } = this.props;
-
-    return (
-      <div style={this.style()} className={this.className('el-steps')}>
-        {React.Children.map(children, (child, index) => {
-          const computedSpace = space
-            ? `${space}px`
-            : `${100 / children.length}%`;
-          const style = direction === 'horizontal'
-            ? { width: computedSpace }
-            : {
-                height: index === children.length - 1 ? 'auto' : computedSpace
-              };
-          const status = this.calStatus(index);
-          const lineStyle = this.calcProgress(status, index);
-          return React.cloneElement(child, {
-            style,
-            lineStyle,
-            direction,
-            status,
-            stepNumber: index + 1
-          });
-        })}
-      </div>
-    );
-  }
-}
+  return (
+    <div
+      ref={ref}
+      className={createClassName('el-steps', {}, className)}
+      style={style}
+      {...props}
+    >
+      {React.Children.map(children, (child, index) => {
+        const computedSpace = space
+          ? `${space}px`
+          : `${100 / React.Children.count(children)}%`;
+        const childStyle = direction === 'horizontal'
+          ? { width: computedSpace }
+          : {
+              height: index === React.Children.count(children) - 1 ? 'auto' : computedSpace
+            };
+        const status = calStatus(index);
+        const lineStyle = calcProgress(status, index);
+        return React.cloneElement(child, {
+          style: childStyle,
+          lineStyle,
+          direction,
+          status,
+          stepNumber: index + 1
+        });
+      })}
+    </div>
+  );
+});
 
 const statusMap = ['wait', 'process', 'finish', 'error', 'success'];
 
@@ -84,5 +86,19 @@ Steps.propTypes = {
   active: PropTypes.number,
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   finishStatus: PropTypes.oneOf(statusMap),
-  processStatus: PropTypes.oneOf(statusMap)
+  processStatus: PropTypes.oneOf(statusMap),
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object
 };
+
+Steps.defaultProps = {
+  direction: 'horizontal',
+  finishStatus: 'finish',
+  processStatus: 'process',
+  active: 0
+};
+
+Steps.displayName = 'Steps';
+
+export default Steps;

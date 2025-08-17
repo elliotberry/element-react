@@ -1,53 +1,74 @@
-/* @flow */
+import React, { createContext, useContext } from 'react';
+import PropTypes from 'prop-types';
+import { cn } from '../utils';
 
-import React from 'react';
-import { Component, PropTypes } from '../../libs';
+const GutterContext = createContext(0);
 
-export default class Row extends Component {
-  getChildContext(): { gutter: number | string } {
-    return {
-      gutter: this.props.gutter
-    };
-  }
+export const useGutter = () => useContext(GutterContext);
 
-  getStyle(): { marginLeft: string, marginRight: string } {
-    const style = {};
+const Row = React.forwardRef(({
+  gutter,
+  type,
+  justify = 'start',
+  align = 'top',
+  tag: Tag = 'div',
+  children,
+  className,
+  style,
+  ...props
+}, ref) => {
+  const getStyle = () => {
+    const rowStyle = { ...style };
 
-    if (this.props.gutter) {
-      style.marginLeft = `-${this.props.gutter / 2}px`;
-      style.marginRight = style.marginLeft;
+    if (gutter) {
+      rowStyle.marginLeft = `-${gutter / 2}px`;
+      rowStyle.marginRight = rowStyle.marginLeft;
     }
 
-    return style;
-  }
+    return rowStyle;
+  };
 
-  render(): React.DOM {
-    return React.createElement(this.props.tag, {
-      className: this.className('el-row',
-        this.props.justify !== 'start' && `is-justify-${this.props.justify}`,
-        this.props.align !== 'top' && `is-align-${this.props.align}`, {
-          'el-row--flex': this.props.type === 'flex'
-        }
-      ),
-      style: this.style(this.getStyle())
-    }, this.props.children);
-  }
-}
+  const rowClassName = cn(
+    'el-row',
+    justify !== 'start' && `is-justify-${justify}`,
+    align !== 'top' && `is-align-${align}`,
+    {
+      'el-row--flex': type === 'flex'
+    },
+    className
+  );
 
-Row.childContextTypes = {
-  gutter: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-};
+  return (
+    <GutterContext.Provider value={gutter}>
+      <Tag
+        ref={ref}
+        className={rowClassName}
+        style={getStyle()}
+        {...props}
+      >
+        {children}
+      </Tag>
+    </GutterContext.Provider>
+  );
+});
 
 Row.propTypes = {
   gutter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   type: PropTypes.string,
   justify: PropTypes.string,
   align: PropTypes.string,
-  tag: PropTypes.string
-}
+  tag: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
 
 Row.defaultProps = {
   justify: 'start',
   align: 'top',
   tag: 'div'
 };
+
+Row.displayName = 'Row';
+
+export default Row;

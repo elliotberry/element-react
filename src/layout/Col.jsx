@@ -1,58 +1,85 @@
-/* @flow */
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+import { cn } from '../utils';
 
-import React from 'react';
-import { Component, PropTypes } from '../../libs';
+const GutterContext = React.createContext(0);
 
-export default class Col extends Component {
-  getStyle(): { paddingLeft: string, paddingRight: string } {
-    const style = {};
+export const useGutter = () => useContext(GutterContext);
 
-    if (this.context.gutter) {
-      style.paddingLeft = `${this.context.gutter / 2}px`;
-      style.paddingRight = style.paddingLeft;
+const Col = React.forwardRef(({
+  span = 24,
+  offset,
+  pull,
+  push,
+  xs,
+  sm,
+  md,
+  lg,
+  tag: Tag = 'div',
+  children,
+  className,
+  style,
+  ...props
+}, ref) => {
+  const gutter = useContext(GutterContext);
+
+  const getStyle = () => {
+    const colStyle = { ...style };
+
+    if (gutter) {
+      colStyle.paddingLeft = `${gutter / 2}px`;
+      colStyle.paddingRight = colStyle.paddingLeft;
     }
 
-    return style;
-  }
+    return colStyle;
+  };
 
-  render(): React.DOM {
+  const getClassList = () => {
     let classList = [];
 
     ['span', 'offset', 'pull', 'push'].forEach(prop => {
-      if (this.props[prop] >= 0) {
+      const value = prop === 'span' ? span : props[prop];
+      if (value >= 0) {
         classList.push(
           prop !== 'span'
-          ? `el-col-${prop}-${this.props[prop]}`
-          : `el-col-${this.props[prop]}`
+            ? `el-col-${prop}-${value}`
+            : `el-col-${value}`
         );
       }
     });
 
     ['xs', 'sm', 'md', 'lg'].forEach(size => {
-      if (typeof this.props[size] === 'object') {
-        let props = this.props[size];
-        Object.keys(props).forEach(prop => {
+      const sizeValue = props[size];
+      if (typeof sizeValue === 'object') {
+        Object.keys(sizeValue).forEach(prop => {
           classList.push(
             prop !== 'span'
-            ? `el-col-${size}-${prop}-${props[prop]}`
-            : `el-col-${size}-${props[prop]}`
+              ? `el-col-${size}-${prop}-${sizeValue[prop]}`
+              : `el-col-${size}-${sizeValue[prop]}`
           );
         });
-      } else if (this.props[size] >= 0) {
-        classList.push(`el-col-${size}-${Number(this.props[size])}`);
+      } else if (sizeValue >= 0) {
+        classList.push(`el-col-${size}-${Number(sizeValue)}`);
       }
     });
 
-    return React.createElement(this.props.tag, {
-      className: this.className('el-col', classList),
-      style: this.style(this.getStyle())
-    }, this.props.children);
-  }
-}
+    return classList;
+  };
 
-Col.contextTypes = {
-  gutter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
+  const classList = getClassList();
+  const colStyle = getStyle();
+
+  return (
+    <Tag
+      ref={ref}
+      className={cn('el-col', ...classList, className)}
+      style={colStyle}
+      {...props}
+    >
+      {children}
+    </Tag>
+  );
+});
 
 Col.propTypes = {
   span: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -63,10 +90,17 @@ Col.propTypes = {
   sm: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.object]),
   md: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.object]),
   lg: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.object]),
-  tag: PropTypes.string
-}
+  tag: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
 
 Col.defaultProps = {
   span: 24,
   tag: 'div'
-}
+};
+
+Col.displayName = 'Col';
+
+export default Col;

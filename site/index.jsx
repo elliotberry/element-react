@@ -1,8 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-
-import 'core-js';
+import { createRoot } from 'react-dom/client';
 
 import 'element-theme-default';
 
@@ -31,12 +28,9 @@ function inChina() {
   }
 }
 
-render(<AppContainer><App /></AppContainer>, document.getElementById('app'), inChina);
+const container = document.getElementById('app');
+const root = createRoot(container);
 
-if (module.hot) {
-  module.hot.accept('./page', () => {
-    const App = require('./page').default;
+root.render(<App />);
 
-    render(<AppContainer><App /></AppContainer>, document.getElementById('app'));
-  });
-}
+inChina();

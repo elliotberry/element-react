@@ -1,100 +1,172 @@
-# Element React
+# Element React - Modern React UI Library
 
-[![](https://travis-ci.org/eleme/element-react.svg?branch=master)](https://travis-ci.org/eleme/element-react)
-[![](https://img.shields.io/npm/v/element-react.svg)](https://www.npmjs.com/package/element-react)
-[![](https://img.shields.io/npm/dm/element-react.svg)](https://www.npmjs.com/package/element-react)
+A modern, accessible React component library built with React 18, TypeScript, and Vite.
 
-[Element](https://github.com/ElemeFE/element) was initially written in [Vue](https://vuejs.org/), which has many elegant UI components, but we also love [React](https://facebook.github.io/react/), so we forked it for the React community.
+## 🚀 Features
 
-## Getting Started
+- **Modern React**: Built with React 18 and functional components
+- **TypeScript Support**: Full TypeScript support with proper type definitions
+- **Fast Build**: Powered by Vite for lightning-fast development and builds
+- **Accessible**: WCAG compliant components
+- **Tree Shakeable**: Only import what you need
+- **Customizable**: Easy theming and customization
 
-### Install
-
-```bash
-npm install element-react --save
-```
-
-Before the building, you need a style theme, here we recommend you to pick up `element-theme-default`.
+## 📦 Installation
 
 ```bash
-npm install element-theme-default --save
+npm install element-react
+# or
+yarn add element-react
 ```
 
-### Usage
+## 🔧 Setup
 
-We are die hard fans of ECMAScript 6, so we recommend you writing code in modern javascript.
+### CSS Import
 
-```js
-import { Button } from 'element-react';
+Import the default theme CSS:
+
+```javascript
+import 'element-react/dist/style.css';
 ```
 
-Also we provide an advanced way to [tree shaking](https://blog.engineyard.com/2016/tree-shaking) the code with [Rollup.js](http://rollupjs.org/) and [Webpack 2](https://webpack.github.io/)
+### Component Usage
 
-```js
-import { Button } from 'element-react/next';
-```
+```jsx
+import React from 'react';
+import { Button, Alert, Input } from 'element-react';
 
-### Config
-
-With webpack, you need additional loaders to build with `element-react`.
-
-```js
-const webpack = require('webpack');
-
-module.exports = {
-  entry: {
-    src: 'path/to/src'
-  },
-  output: {
-    path: 'path/to/output'
-    publicPath: '/public',
-    chunkFilename: '[chunkhash:12].js',
-    filename: '[chunkhash:12].js'
-  },
-  plugins: [
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-    new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: false
-      }
-    })
-  ],
-  resolve: {
-    extensions: ['.js', '.jsx']
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        include: ['path/to/src']
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
-        loader: 'file-loader?name=[hash:12].[ext]'
-      }
-    ]
-  }
+function App() {
+  return (
+    <div>
+      <Alert title="Success!" type="success" />
+      <Input placeholder="Enter your name" />
+      <Button type="primary">Click me</Button>
+    </div>
+  );
 }
 ```
 
-## Contributing
+## 🛠 Development
 
-Please make sure to read the [Contributing Guide](https://github.com/eleme/element-react/blob/master/CONTRIBUTING.md) before making a pull request.
+### Prerequisites
 
-## Acknowledgments
+- Node.js 16+
+- npm or yarn
 
-* [@doxiaodong](https://github.com/doxiaodong) for adding typescript ambient declarations.
-* [@cuining](https://github.com/cuining) for building the live code editor.
+### Setup Development Environment
 
-## Credits
+```bash
+# Install dependencies
+npm install
 
-* [Element](https://github.com/ElemeFE/element) Desktop UI elements for Vue.js 2.0.
+# Start development server
+npm run dev
 
-## License
+# Build library
+npm run build:lib
 
-MIT
+# Run tests
+npm test
+
+# Lint code
+npm run lint
+```
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build the site
+- `npm run build:lib` - Build the library
+- `npm run test` - Run tests
+- `npm run test:ui` - Run tests with UI
+- `npm run lint` - Lint code
+- `npm run lint:fix` - Fix linting issues
+- `npm run type-check` - TypeScript type checking
+
+## 📚 Components
+
+### Basic Components
+
+- **Button** - Button component with various types and sizes
+- **Alert** - Alert component for displaying messages
+- **Input** - Input component with validation and formatting
+- **Icon** - Icon component
+
+### Form Components
+
+- **Form** - Form wrapper with validation
+- **InputNumber** - Number input component
+- **Select** - Select dropdown component
+- **Checkbox** - Checkbox component
+- **Radio** - Radio button component
+- **Switch** - Switch toggle component
+- **Slider** - Slider component
+- **DatePicker** - Date picker component
+- **TimePicker** - Time picker component
+- **Upload** - File upload component
+
+### Data Display
+
+- **Table** - Data table component
+- **Tag** - Tag component
+- **Progress** - Progress bar component
+- **Tree** - Tree component
+- **Badge** - Badge component
+- **Rate** - Rating component
+
+### Navigation
+
+- **Menu** - Navigation menu component
+- **Tabs** - Tab component
+- **Breadcrumb** - Breadcrumb navigation
+- **Pagination** - Pagination component
+- **Steps** - Step component
+
+### Feedback
+
+- **Dialog** - Modal dialog component
+- **Message** - Message component
+- **MessageBox** - MessageBox component
+- **Notification** - Notification component
+- **Loading** - Loading component
+- **Tooltip** - Tooltip component
+- **Popover** - Popover component
+
+### Layout
+
+- **Layout** - Layout component
+- **Card** - Card component
+- **Collapse** - Collapse component
+- **Carousel** - Carousel component
+
+## 🎨 Theming
+
+Element React supports custom theming through CSS variables:
+
+```css
+:root {
+  --el-color-primary: #409eff;
+  --el-color-success: #67c23a;
+  --el-color-warning: #e6a23c;
+  --el-color-danger: #f56c6c;
+  --el-color-info: #909399;
+}
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Original Element UI team for the design system
+- React team for the amazing framework
+- Vite team for the fast build tool

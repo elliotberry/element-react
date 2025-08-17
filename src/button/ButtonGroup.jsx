@@ -1,14 +1,31 @@
-/* @flow */
-
 import React from 'react';
-import { Component } from '../../libs';
+import PropTypes from 'prop-types';
+import { cn } from '../utils';
 
-export default class ButtonGroup extends Component {
-  render(): React.DOM {
-    return (
-      <div style={this.style()} className={this.className('el-button-group')}>
-        {this.props.children}
-      </div>
-    )
-  }
-}
+const ButtonGroup = React.forwardRef(({
+  children,
+  className,
+  style,
+  ...props
+}, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={cn('el-button-group', className)}
+      style={style}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+});
+
+ButtonGroup.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
+
+ButtonGroup.displayName = 'ButtonGroup';
+
+export default ButtonGroup;
