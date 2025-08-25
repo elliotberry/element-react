@@ -1,24 +1,12 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes, Transition, View } from '../../libs';
 
-type State = {
-  inputWidth: number,
-  options: [],
-  props: {},
-  visible: boolean,
-  activeValue: any,
-  value: [],
-  expandTrigger: string,
-  changeOnSelect: boolean,
-  popperClass: string
-};
 
 export default class CascaderMenu extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -42,13 +30,13 @@ export default class CascaderMenu extends Component {
     this.parent().initMenu(this);
   }
 
-  componentDidUpdate(props: Object, state: State) {
+  componentDidUpdate(props, state) {
     if (state.value !== this.state.value || state.visible !== this.state.visible) {
       this.setState({ activeValue: this.state.value });
     }
   }
 
-  select(item: any, menuIndex: number) {
+  select(item, menuIndex) {
     let {activeValue} = this.state
     if (item.__IS__FLAT__OPTIONS) {
       activeValue = item.value;
@@ -67,7 +55,7 @@ export default class CascaderMenu extends Component {
   handleMenuLeave() {
   }
 
-  activeItem(item: any, menuIndex: number) {
+  activeItem(item, menuIndex) {
     const activeOptions = this.activeOptions();
 
     this.state.activeValue.splice(menuIndex, activeOptions.length, item.value);
@@ -86,7 +74,7 @@ export default class CascaderMenu extends Component {
   activeOptions(): [] {
     const activeValue = this.state.activeValue;
     const configurableProps = ['label', 'value', 'children', 'disabled'];
-    const formatOptions = (options: any) => {
+    const formatOptions = (options) => {
       options.forEach(option => {
         if (option.__IS__FLAT__OPTIONS) return;
         configurableProps.forEach(prop => {
@@ -98,7 +86,7 @@ export default class CascaderMenu extends Component {
         }
       });
     };
-    const loadActiveOptions = (options: any, activeOptions: any = []): [] => {
+    const loadActiveOptions = (options, activeOptions = []): [] => {
       const level = activeOptions.length;
       activeOptions[level] = options;
       let active = activeValue[level];

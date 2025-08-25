@@ -1,18 +1,12 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes, View } from '../../libs';
 
-type State = {
-  index: number,
-  visible: boolean,
-  hitState: boolean
-};
 
 export default class Option extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -38,21 +32,21 @@ export default class Option extends Component {
     this.parent().onOptionDestroy(this);
   }
 
-  parent(): Object {
+  parent() {
     return this.context.component;
   }
 
-  currentSelected(): boolean {
+  currentSelected() {
     return this.props.selected || (this.parent().props.multiple ?
       this.parent().state.value.indexOf(this.props.value) > -1 :
       this.parent().state.value === this.props.value);
   }
 
-  currentLabel(): string {
+  currentLabel() {
     return this.props.label || ((typeof this.props.value === 'string' || typeof this.props.value === 'number') ? this.props.value : '');
   }
 
-  itemSelected(): boolean {
+  itemSelected() {
     if (Object.prototype.toString.call(this.parent().state.selected) === '[object Object]') {
       return this === this.parent().state.selected;
     } else if (Array.isArray(this.parent().state.selected)) {
@@ -76,7 +70,7 @@ export default class Option extends Component {
     }
   }
 
-  queryChange(query: string) {
+  queryChange(query) {
     // query 里如果有正则中的特殊字符，需要先将这些字符转义
     const parsedQuery = query.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
     const visible = new RegExp(parsedQuery, 'i').test(this.currentLabel());

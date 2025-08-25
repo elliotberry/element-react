@@ -1,14 +1,13 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes, CollapseTransition } from '../../libs';
 
 export default class CollapseItem extends Component {
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
   }
 
-  render(): React.DOM {
+  render() {
     const { title, isActive, onClick, name } = this.props;
 
     return (

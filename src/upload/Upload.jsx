@@ -1,15 +1,10 @@
-/* @flow */
-
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 import UploadList from './UploadList';
 import iFrameUpload from './iFrameUpload';
 import AjaxUpload from './AjaxUpload';
-import type { UploadState, RawFile, _File, _ProgressEvent } from './Types';
 
 export default class Upload extends Component {
-  state: UploadState;
-
   static defaultProps = {
     headers: {},
     name: 'file',
@@ -24,25 +19,25 @@ export default class Upload extends Component {
     onProgress() {},
     onSuccess() {},
     onError() {},
-    onChange() {}
+    onChange() {},
   };
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = {
       fileList: [],
-      tempIndex: 1
+      tempIndex: 1,
     };
   }
 
-  componentWillMount(): void {
+  componentWillMount() {
     this.init(this.props);
   }
 
-  init(props: Object): void {
+  init(props) {
     let { tempIndex } = this.state;
     const { fileList } = props;
-    const uploadFiles = fileList.map(file => {
+    const uploadFiles = fileList.map((file) => {
       file.uid = file.uid || Date.now() + tempIndex++;
       file.status = 'success';
       return file;
@@ -53,30 +48,30 @@ export default class Upload extends Component {
   getChildContext() {
     return {
       onPreview: this.handlePreview.bind(this),
-      onRemove: this.handleRemove.bind(this)
+      onRemove: this.handleRemove.bind(this),
     };
   }
 
-  getFile(file: RawFile): ?_File {
+  getFile(file) {
     if (file) {
-      return this.state.fileList.find(item => item.uid === file.uid);
+      return this.state.fileList.find((item) => item.uid === file.uid);
     }
 
     return null;
   }
 
-  handleStart(file: RawFile): void {
+  handleStart(file) {
     let { tempIndex, fileList } = this.state;
 
     file.uid = Date.now() + tempIndex++;
 
-    let _file: _File = {
+    let _file = {
       status: 'ready',
       name: file.name,
       size: file.size,
       percentage: 0,
       uid: file.uid,
-      raw: file
+      raw: file,
     };
 
     try {
@@ -88,11 +83,11 @@ export default class Upload extends Component {
     fileList.push(_file);
     this.setState({
       fileList,
-      tempIndex
+      tempIndex,
     });
   }
 
-  handleProgress(e: _ProgressEvent, file: RawFile): void {
+  handleProgress(e, file) {
     const { fileList } = this.state;
     let _file = this.getFile(file);
     if (_file) {
@@ -103,26 +98,23 @@ export default class Upload extends Component {
     }
   }
 
-  handleSuccess(res: Object, file: RawFile): void {
+  handleSuccess(res, file) {
     const { fileList } = this.state;
     let _file = this.getFile(file);
     if (_file) {
       _file.status = 'success';
       _file.response = res;
 
-      setTimeout(
-        () => {
-          this.setState({ fileList }, () => {
-            this.props.onSuccess(res, _file, fileList);
-            this.props.onChange(_file, fileList);
-          });
-        },
-        1000
-      );
+      setTimeout(() => {
+        this.setState({ fileList }, () => {
+          this.props.onSuccess(res, _file, fileList);
+          this.props.onChange(_file, fileList);
+        });
+      }, 1000);
     }
   }
 
-  handleError(err: Error, file: RawFile): void {
+  handleError(err, file) {
     const { fileList } = this.state;
     let _file = this.getFile(file);
     if (_file) {
@@ -135,7 +127,7 @@ export default class Upload extends Component {
     }
   }
 
-  handleRemove(file: RawFile): void {
+  handleRemove(file) {
     const { fileList } = this.state;
     let _file = this.getFile(file);
     if (_file) {
@@ -144,33 +136,33 @@ export default class Upload extends Component {
     }
   }
 
-  handlePreview(file: _File): void {
+  handlePreview(file) {
     if (file.status === 'success') {
       this.props.onPreview(file);
     }
   }
 
-  clearFiles(): void {
+  clearFiles() {
     this.setState({
-      fileList: []
+      fileList: [],
     });
   }
 
-  submit(): void {
+  submit() {
     this.state.fileList
-      .filter(file => file.status === 'ready')
-      .forEach(file => {
+      .filter((file) => file.status === 'ready')
+      .forEach((file) => {
         this.refs['upload-inner'].upload(file.raw, file);
       });
   }
 
-  showCover(): boolean {
+  showCover() {
     const { fileList } = this.state;
     const file = fileList[fileList.length - 1];
     return file && file.status !== 'fail';
   }
 
-  render(): React.DOM {
+  render() {
     const { fileList } = this.state;
     const {
       showFileList,
@@ -190,7 +182,7 @@ export default class Upload extends Component {
       limit,
       disabled,
       onExceed,
-      httpRequest
+      httpRequest,
     } = this.props;
     let uploadList;
     if (showFileList && fileList.length) {
@@ -220,12 +212,19 @@ export default class Upload extends Component {
       onPreview: this.handlePreview.bind(this),
       onRemove: this.handleRemove.bind(this),
       showCover: this.showCover(),
-      ref: 'upload-inner'
+      ref: 'upload-inner',
     };
     const trigger = this.props.trigger || this.props.children;
-    const uploadComponent = typeof FormData !== 'undefined'
-      ? <AjaxUpload key="AjaxUpload" {...restProps}>{trigger}</AjaxUpload>
-      : <iFrameUpload key="iFrameUpload" {...restProps}>{trigger}</iFrameUpload>;
+    const uploadComponent =
+      typeof FormData !== 'undefined' ? (
+        <AjaxUpload key="AjaxUpload" {...restProps}>
+          {trigger}
+        </AjaxUpload>
+      ) : (
+        <iFrameUpload key="iFrameUpload" {...restProps}>
+          {trigger}
+        </iFrameUpload>
+      );
     return (
       <div className={className}>
         {listType === 'picture-card' ? uploadList : ''}
@@ -241,7 +240,7 @@ export default class Upload extends Component {
 
 Upload.childContextTypes = {
   onPreview: PropTypes.func,
-  onRemove: PropTypes.func
+  onRemove: PropTypes.func,
 };
 
 Upload.propTypes = {
@@ -270,5 +269,5 @@ Upload.propTypes = {
   disabled: PropTypes.bool,
   limit: PropTypes.number,
   onExceed: PropTypes.func,
-  httpRequest: PropTypes.func
+  httpRequest: PropTypes.func,
 };

@@ -1,11 +1,9 @@
-// @flow
 import * as React from 'react';
 import { throttle } from 'throttle-debounce';
 import { Component, PropTypes } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 
 import Table from './Table';
-import type {
   TableLayoutProps,
   TableLayoutState,
 } from './Types';
@@ -17,7 +15,7 @@ export default class TableLayout extends Component<TableLayoutProps, TableLayout
     layout: PropTypes.any,
   };
 
-  constructor(props: TableLayoutProps) {
+  constructor(props) {
     super(props);
     this.state = {
       height: props.height || props.maxHeight || null, // Table's height or maxHeight prop
@@ -44,7 +42,7 @@ export default class TableLayout extends Component<TableLayoutProps, TableLayout
     addResizeListener(this.el, this.resizeListener)
   }
 
-  componentWillReceiveProps(nextProps: TableLayoutProps) {
+  componentWillReceiveProps(nextProps) {
     const preHeight = this.props.height || this.props.maxHeight;
     const nextHeight = nextProps.height || nextProps.maxHeight;
     if (preHeight !== nextHeight) {
@@ -54,7 +52,7 @@ export default class TableLayout extends Component<TableLayoutProps, TableLayout
     }
   }
 
-  componentDidUpdate(preProps: TableLayoutProps) {
+  componentDidUpdate(preProps) {
     if (
       this.isPropChanged('columns', preProps)
       || this.isPropChanged('style', preProps)
@@ -84,7 +82,7 @@ export default class TableLayout extends Component<TableLayoutProps, TableLayout
     removeResizeListener(this.el, this.resizeListener)
   }
 
-  isPropChanged(key: string, preProps: TableLayoutProps): boolean {
+  isPropChanged(key, preProps) {
     const prop = getValueByPath(this.props, key);
     const preProp = getValueByPath(preProps, key);
     return prop !== preProp;
@@ -103,7 +101,7 @@ export default class TableLayout extends Component<TableLayoutProps, TableLayout
   }
 
   // horizontal direction layout
-  caculateWidth(): Object {
+  caculateWidth() {
     const { tableStoreState: { columns, fixedColumns, rightFixedColumns }, fit } = this.props;
     const { gutterWidth } = this.state;
     const bodyMinWidth = columns.reduce((pre, col) => pre + (col.width || col.minWidth), 0);

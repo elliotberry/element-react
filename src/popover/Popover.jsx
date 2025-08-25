@@ -1,16 +1,12 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Popper from 'popper.js';
 import { Component, PropTypes, Transition, View } from '../../libs';
 
-type State = {
-  showPopper: boolean
-};
 
 export default class Popover extends Component {
-  state: State;
+  state;
 
   static defaultProps = {
     visibleArrow: true,
@@ -20,7 +16,7 @@ export default class Popover extends Component {
     width: 150
   }
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -43,7 +39,7 @@ export default class Popover extends Component {
         });
       });
 
-      document.addEventListener('click', (e: Event): void => {
+      document.addEventListener('click', (e) => {
         if (!this.element || this.element.contains(e.target) ||
             !this.reference || this.reference.contains(e.target) ||
             !popper || popper.contains(e.target)) return;
@@ -71,7 +67,7 @@ export default class Popover extends Component {
     }
   }
 
-  componentWillReceiveProps(props: Object) {
+  componentWillReceiveProps(props) {
     if (props.visible !== this.props.visible) {
       this.setState({
         showPopper: props.visible
@@ -79,11 +75,11 @@ export default class Popover extends Component {
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.reference.parentNode.replaceChild(this.reference.cloneNode(true), this.reference);
   }
 
-  handleMouseEnter(): void {
+  handleMouseEnter() {
     clearTimeout(this.timer);
 
     this.setState({
@@ -91,7 +87,7 @@ export default class Popover extends Component {
     });
   }
 
-  handleMouseLeave(): void {
+  handleMouseLeave() {
     this.timer = setTimeout(() => {
       this.setState({
         showPopper: false
@@ -99,7 +95,7 @@ export default class Popover extends Component {
     }, 200);
   }
 
-  onEnter(): void {
+  onEnter() {
     if (this.refs.arrow) {
       this.refs.arrow.setAttribute('x-arrow', '');
     }
@@ -114,11 +110,11 @@ export default class Popover extends Component {
     });
   }
 
-  onAfterLeave(): void {
+  onAfterLeave() {
     this.popperJS.destroy();
   }
 
-  render(): React.DOM {
+  render() {
     const { transition, popperClass, width, title, content, visibleArrow } = this.props;
 
     return (

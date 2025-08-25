@@ -1,40 +1,39 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 
 export default class Cover extends Component {
   static defaultProps = {
-    onFile: Function
+    onFile
   };
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = {
       dragOver: false
     };
   }
 
-  handleDragover(e: SyntheticDragEvent<any>): void {
+  handleDragover(e) {
     e.preventDefault();
     if(!this.props.disabled){
       this.setState({ dragOver: true });
     }
   }
 
-  handleDragleave(e: SyntheticDragEvent<any>): void {
+  handleDragleave(e) {
     e.preventDefault();
     this.setState({ dragOver: false });
   }
 
-  onDrop(e: SyntheticDragEvent<any>): void {
+  onDrop(e) {
     if(this.props.disabled) return
     e.preventDefault();
     this.setState({ dragOver: false });
     this.props.onFile(e.dataTransfer.files);
   }
 
-  render(): React.DOM {
+  render() {
     const { dragOver } = this.state;
     return (
       <div

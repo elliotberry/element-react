@@ -1,18 +1,14 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Popper from 'popper.js';
 import { Component, PropTypes, Transition, View } from '../../libs';
 
-type State = {
-  showPopper: boolean
-};
 
 export default class DropdownMenu extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -20,13 +16,13 @@ export default class DropdownMenu extends Component {
     }
   }
 
-  onVisibleChange(visible: boolean): void {
+  onVisibleChange(visible) {
     this.setState({
       showPopper: visible
     })
   }
 
-  onEnter(): void {
+  onEnter() {
     const parent = ReactDOM.findDOMNode(this.parent());
 
     this.popperJS = new Popper(parent, this.refs.popper, {
@@ -39,19 +35,19 @@ export default class DropdownMenu extends Component {
     });
   }
 
-  onAfterLeave(): void {
+  onAfterLeave() {
     this.popperJS.destroy();
   }
 
-  parent(): Component {
+  parent() {
     return this.context.component;
   }
 
-  placement(): string {
+  placement() {
     return `bottom-${this.parent().props.menuAlign}`;
   }
 
-  render(): React.DOM {
+  render() {
     return (
       <Transition name="el-zoom-in-top" onEnter={this.onEnter.bind(this)} onAfterLeave={this.onAfterLeave.bind(this)}>
         <View show={this.state.showPopper}>

@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import { PropTypes, Component } from '../../libs';
@@ -7,15 +6,11 @@ import Node from './Node';
 import Locale from '../locale';
 import TreeStore from './model/tree-store';
 
-type State = {
-  currentNode: ?Object,
-  store: any,
-};
 
 export default class Tree extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     const {
       data, lazy, options, load, defaultCheckedKeys, defaultExpandedKeys, currentNodeKey, nodeKey,
@@ -30,7 +25,7 @@ export default class Tree extends Component {
 
   }
 
-  componentWillReceiveProps(nextProps: Object): void {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data instanceof Array && this.props.data !== nextProps.data) {
       this.root.setData(nextProps.data);
       this.setState({}); //force update
@@ -38,16 +33,16 @@ export default class Tree extends Component {
   }
 
 
-  get root(): any{
+  get root(){
     return this.state.store.root;
   }
 
-  get store(): any {
+  get store() {
     return this.state.store
   }
 
 
-  filter(value: any) {
+  filter(value) {
     if (!this.props.filterNodeMethod) throw new Error('[Tree] filterNodeMethod is required when filter');
     this.store.filter(value);
     this.refresh();
@@ -57,7 +52,7 @@ export default class Tree extends Component {
     this.setState({})
   }
 
-  getNodeKey(node: any, otherwise: number) {
+  getNodeKey(node, otherwise) {
     const nodeKey = this.props.nodeKey;
     if (nodeKey && node) {
       return node.data[nodeKey];
@@ -65,34 +60,34 @@ export default class Tree extends Component {
     return otherwise;
   }
 
-  getCheckedNodes(leafOnly: boolean): void {
+  getCheckedNodes(leafOnly) {
     return this.store.getCheckedNodes(leafOnly);
   }
 
-  getCheckedKeys(leafOnly: boolean) {
+  getCheckedKeys(leafOnly) {
     return this.store.getCheckedKeys(leafOnly);
   }
 
-  setCheckedNodes(nodes: any, leafOnly: boolean) {
+  setCheckedNodes(nodes, leafOnly) {
     if (!this.props.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
     this.store.setCheckedNodes(nodes, leafOnly);
   }
 
-  setCheckedKeys(keys: any, leafOnly: boolean) {
+  setCheckedKeys(keys, leafOnly) {
     if (!this.props.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
     this.store.setCheckedKeys(keys, leafOnly);
   }
 
-  setChecked(data: any, checked: boolean, deep: boolean) {
+  setChecked(data, checked, deep) {
     this.store.setChecked(data, checked, deep);
   }
 
   // used by child nodes, use tree store to store this info?
-  getCurrentNode(): ?Object {
+  getCurrentNode() {
     return this.state.currentNode;
   }
 
-  setCurrentNode(node: Object): void {
+  setCurrentNode(node) {
     require_condition(node != null);
 
     let {onCurrentChange, onNodeClicked} = this.props;
@@ -106,7 +101,7 @@ export default class Tree extends Component {
     });
   }
 
-  closeSiblings(exclude: any){
+  closeSiblings(exclude){
     const {accordion} = this.props;
     if (!accordion) return;
     if (!this.root.childNodes || !this.root.childNodes.length) return;
@@ -115,7 +110,7 @@ export default class Tree extends Component {
     this.refresh();
   }
 
-  render(): React.DOM {
+  render() {
     const {
       options,
       renderContent,

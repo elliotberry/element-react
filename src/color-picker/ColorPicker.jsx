@@ -1,23 +1,22 @@
-/* @flow */
 
 import React from 'react';
 import ClickOutside from 'react-click-outside';
 import { Component, PropTypes } from '../../libs';
 import PickerDropdown from './components/PickerDropdown';
 import Color from './color';
-import type { ColorType, ColorPickerState } from './Types';
+
 
 class ColorPicker extends Component {
-  state: ColorPickerState;
+
 
   static defaultProps = {
     onChange() {}
   };
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
-    const color: ColorType = new Color({
+    const color = new Color({
       enableAlpha: this.props.showAlpha,
       format: this.props.colorFormat
     });
@@ -45,17 +44,17 @@ class ColorPicker extends Component {
     };
   }
 
-  handleChange(color: ColorType): void {
+  handleChange(color) {
     this.setState({ value: color.value, color });
   }
 
-  confirmValue(): void {
+  confirmValue() {
     const { value } = this.state;
     const { onChange } = this.props;
     this.setState({ showPicker: false }, () => onChange(value));
   }
 
-  clearValue(): void {
+  clearValue() {
     this.setState(
       {
         showPicker: false,
@@ -69,7 +68,7 @@ class ColorPicker extends Component {
     );
   }
 
-  hide(): void {
+  hide() {
     this.setState(
       {
         showPicker: false
@@ -78,7 +77,7 @@ class ColorPicker extends Component {
     );
   }
 
-  resetColor(): void {
+  resetColor() {
     const { value, color } = this.state;
     if (value) {
       color.fromString(value);
@@ -86,11 +85,11 @@ class ColorPicker extends Component {
     }
   }
 
-  handleClickOutside(): void {
+  handleClickOutside() {
     this.setState({ showPicker: false });
   }
 
-  render(): React.DOM {
+  render() {
     const { showAlpha } = this.props;
     const { value, color, showPicker, showPanelColor } = this.state;
 

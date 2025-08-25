@@ -1,11 +1,9 @@
-//@flow
 import React from 'react';
 
 import { PropTypes } from '../../../libs';
 import { scrollIntoView } from '../../../libs/utils/dom';
 
 import { Scrollbar } from '../../scrollbar'
-import type {TimeSelectPanelProps } from '../Types';
 import { PopperBase } from './PopperBase'
 
 export default class TimeSelectPanel extends PopperBase {
@@ -27,11 +25,11 @@ export default class TimeSelectPanel extends PopperBase {
     }, PopperBase.propTypes)
   }
 
-  constructor(props: TimeSelectPanelProps) {
+  constructor(props) {
     super(props);
   }
 
-  handleClick(item: any) {
+  handleClick(item) {
     const { onPicked, dateParser } = this.props
     if (!item.disabled) {
       onPicked(dateParser(item.value));
@@ -42,7 +40,7 @@ export default class TimeSelectPanel extends PopperBase {
     return TimeSelectPanel.items(this.props)
   }
 
-  scrollToOption(className: string = 'selected') {
+  scrollToOption(className = 'selected') {
     const menu = this.refs.root.querySelector('.el-picker-panel__content');
     scrollIntoView(menu, menu.getElementsByClassName(className)[0]);
   }
@@ -51,7 +49,7 @@ export default class TimeSelectPanel extends PopperBase {
     this.scrollToOption()
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps) {
     clearTimeout(this._timer)
     if (nextProps.value !== this.props.value) {
       this._timer = setTimeout(() => this.scrollToOption(), 0)
@@ -130,8 +128,8 @@ const parseTime = function (time) {
 };
 
 const compareTime = function (time1, time2) {
-  const value1: any = parseTime(time1);
-  const value2: any = parseTime(time2);
+  const value1 = parseTime(time1);
+  const value2 = parseTime(time2);
 
   const minutes1 = value1.minutes + value1.hours * 60;
   const minutes2 = value2.minutes + value2.hours * 60;
@@ -149,10 +147,10 @@ const formatTime = function (time) {
 };
 
 const nextTime = function (time, step) {
-  const timeValue: any = parseTime(time);
-  const stepValue: any = parseTime(step);
+  const timeValue = parseTime(time);
+  const stepValue = parseTime(step);
 
-  const next: any = {
+  const next = {
     hours: timeValue.hours,
     minutes: timeValue.minutes
   };

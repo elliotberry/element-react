@@ -63,7 +63,7 @@ export default class DateRangePanel extends PopperBase {
     return Object.assign({
       // user picked date value
       /*
-      value: null | [Date, null | false]
+      value: null or [Date, null or false]
       */
       value: PropTypes.any,
       // ([value1, value2]|null, isKeepPanel)=>()

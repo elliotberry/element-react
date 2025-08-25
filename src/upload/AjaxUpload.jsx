@@ -1,25 +1,22 @@
-/* @flow */
-
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 import ajax from './ajax';
 import Cover from './Cover';
-import type { RawFile, _File } from './Types';
 
 export default class AjaxUpload extends Component {
   static defaultProps = {
     name: 'file'
   };
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
   }
 
-  isImage(str: string): boolean {
+  isImage(str) {
     return str.indexOf('image') !== -1;
   }
 
-  handleChange(e: SyntheticEvent<any>): void {
+  handleChange(e) {
     if (e.target instanceof HTMLInputElement) {
       const files = e.target.files;
       if (!files) {
@@ -30,7 +27,7 @@ export default class AjaxUpload extends Component {
     }
   }
 
-  uploadFiles(files: FileList): void {
+  uploadFiles(files) {
     const { multiple, limit, onExceed, fileList } = this.props;
     if(limit && fileList.length + files.length > limit){
       onExceed && onExceed(files, fileList)
@@ -49,7 +46,7 @@ export default class AjaxUpload extends Component {
     });
   }
 
-  upload(rawFile: RawFile, file?: _File): void {
+  upload(rawFile, file) {
     const { beforeUpload } = this.props;
     if (!beforeUpload) {
       return this.post(rawFile);
@@ -77,7 +74,7 @@ export default class AjaxUpload extends Component {
     }
   }
 
-  post(file: RawFile): void {
+  post(file) {
     const {
       name: filename,
       headers,
@@ -105,13 +102,13 @@ export default class AjaxUpload extends Component {
     }
   }
 
-  handleClick(): void {
+  handleClick() {
     if(!this.props.disabled){
       this.refs.input.click();
     }
   }
 
-  render(): React.DOM {
+  render() {
     const { drag, multiple, accept, listType, disabled } = this.props;
     return (
       <div

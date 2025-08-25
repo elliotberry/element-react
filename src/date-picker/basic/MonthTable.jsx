@@ -67,7 +67,7 @@ export default class MonthTable extends Component {
 MonthTable.propTypes = {
   // current date, specific to view
   date: PropTypes.instanceOf(Date).isRequired,
-  // user picked value, value: Date|null
+  // user picked value, value
   value: PropTypes.instanceOf(Date),
   onPick: PropTypes.func.isRequired,
   // (Date)=>boolean

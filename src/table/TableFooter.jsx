@@ -1,14 +1,12 @@
-// @flow
 import * as React from 'react';
 import { Component, PropTypes } from '../../libs';
 import { getValueByPath } from "./utils";
 import Checkbox from '../checkbox';
 import Tag from '../tag';
 
-import type { TableFooterProps, _Column } from "./Types";
 
 export default class TableFooter extends Component<TableFooterProps> {
-  isCellHidden(index: number, columns: Array<_Column>): boolean {
+  isCellHidden(index, columns) {
     const { fixed } = this.props;
     if (fixed === true || fixed === 'left') {
       return index >= this.leftFixedCount;
@@ -23,15 +21,15 @@ export default class TableFooter extends Component<TableFooterProps> {
     }
   }
 
-  get columnsCount(): number {
+  get columnsCount() {
     return this.props.tableStoreState.columns.length;
   }
 
-  get leftFixedCount(): number {
+  get leftFixedCount() {
     return this.props.tableStoreState.fixedColumns.length;
   }
 
-  get rightFixedCount(): number {
+  get rightFixedCount() {
     return this.props.tableStoreState.rightFixedColumns.length;
   }
 

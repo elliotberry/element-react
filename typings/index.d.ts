@@ -140,7 +140,7 @@ declare namespace ElementReact {
 
   // Card
   interface CardProps extends ElementReactLibs.ComponentProps<{}> {
-    header?: string | React.ReactElement<any>
+    header?: string | React.ReactElement
     bodyStyle?: React.CSSProperties
   }
   export class Card extends ElementReactLibs.Component<CardProps, {}> { }
@@ -189,7 +189,7 @@ declare namespace ElementReact {
     showClose?: boolean
     onClose?(message?: Message): void
   }
-  type MessageFunction = (options: string | MessageOptions, type?: typeColor | 'error') => void
+  type MessageFunction = (options: string | MessageOptions, type?: typeColor | 'error') => undefined
   type MessageObject = {
     success(options: string | MessageOptions): void
     info(options: string | MessageOptions): void
@@ -230,7 +230,7 @@ declare namespace ElementReact {
 
   // Notification
   interface NotificationOptions {
-    message?: string | React.ReactElement<any>
+    message?: string | React.ReactElement
     title?: string
     type?: typeColor | 'error'
     iconClass?: string
@@ -239,7 +239,7 @@ declare namespace ElementReact {
     onClose?(): void
     offset?: number
   }
-  type NotificationFunction = (options: string | NotificationOptions, type?: typeColor | 'error') => void
+  type NotificationFunction = (options: string | NotificationOptions, type?: typeColor | 'error') => undefined
   type NotificationObject = {
     success(options: string | NotificationOptions): void
     info(options: string | NotificationOptions): void
@@ -358,7 +358,7 @@ declare namespace ElementReact {
     onTabEdit?(targetName?: string, action?: string): void
   }
   interface TabsPaneProps extends ElementReactLibs.ComponentProps<{}> {
-    label?: string | React.ReactElement<any>
+    label?: string | React.ReactElement
     name?: string
     disabled?: boolean
     closable?: boolean
@@ -380,7 +380,7 @@ declare namespace ElementReact {
     emptyText?: string
     expandOnClickNode?: boolean
     filterNodeMethod?(value?, data?, node?): boolean
-    renderContent?(nodeModel?, data?, store?): React.ReactElement<any>
+    renderContent?(nodeModel?, data?, store?): React.ReactElement
     isShowCheckbox?: boolean
     accordion?: boolean
     indent?: number,
@@ -411,7 +411,7 @@ declare namespace ElementReact {
   interface InputProps extends ElementReactLibs.ComponentProps<{}>
   {
     type?: string // valid value are 'text' & 'textarea'
-    icon?: string | React.ReactElement<any>
+    icon?: string | React.ReactElement
     disabled?: boolean
     name?: string
     placeholder?: string
@@ -475,7 +475,7 @@ declare namespace ElementReact {
   }
   interface SubMenuProps extends ElementReactLibs.ComponentProps<{}> {
     index: menuIndex
-    title?: React.ReactElement<any> | string
+    title?: React.ReactElement | string
   }
   interface MenuItemProps extends ElementReactLibs.ComponentProps<{}> {
     index: menuIndex
@@ -505,7 +505,7 @@ declare namespace ElementReact {
   interface StepProps extends ElementReactLibs.ComponentProps<{}> {
     title?: string
     icon?: string
-    description?: string | React.ReactElement<any>
+    description?: string | React.ReactElement
     status?: statusMap
     direction?: 'vertical' | 'horizontal'
     style?: React.CSSProperties
@@ -530,7 +530,7 @@ declare namespace ElementReact {
   // Tooltip
   interface TooltipProps extends ElementReactLibs.ComponentProps<{}> {
     effect?: 'dark' | 'light'
-    content?: string | React.ReactElement<any>
+    content?: string | React.ReactElement
     placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
     disabled?: boolean
     transition?: string
@@ -612,14 +612,14 @@ declare namespace ElementReact {
     width?: number
     align?: string
     sortable?: boolean
-    sortMethod?: () => void
+    sortMethod?: () => undefined
     resizable?: boolean
-    formatter?: () => void
+    formatter?: () => undefined
     selectable?: boolean
     fixed?: boolean | string
-    filterMethod?: () => void
+    filterMethod?: () => undefined
     filters?: Object[]
-    render?: (data? :Object, column? :Object, index? :number) => void
+    render?: (data? :Object, column? :Object, index? :number) => undefined
   }
   interface TableProps extends ElementReactLibs.ComponentProps<{}> {
     columns?: TableColumn[]
@@ -674,8 +674,8 @@ declare namespace ElementReact {
   class FormItem extends ElementReactLibs.Component<FormItemProps, {}> { }
   export class Form extends ElementReactLibs.Component<FormProps, {}> {
     static Item: typeof FormItem
-    validate(cb?: (valid: boolean) => void): void
-    validateField(prop: string, cb?: () => void): void
+    validate(cb?: (valid: boolean) => undefined): void
+    validateField(prop: string, cb?: () => undefined): void
     resetFields(): void
   }
 
@@ -693,9 +693,9 @@ declare namespace ElementReact {
     accept?: string
     drag?: boolean
     listType?: 'none' | 'text' | 'picture' | 'picture-card'
-    tip?: React.ReactElement<any>
-    trigger?: React.ReactElement<any>
-    beforeUpload?(file?): boolean | Promise<any>
+    tip?: React.ReactElement
+    trigger?: React.ReactElement
+    beforeUpload?(file?): boolean | Promise
     onRemove?(file?, fileList?: any[]): void
     onPreview?(file?): void
     onProgress?(event?, file?, fileList?: any[]): void
@@ -751,7 +751,7 @@ declare namespace ElementReact {
 
   // Dropdown
   interface DropdownProps extends ElementReactLibs.ComponentProps<{}> {
-    menu: React.ReactElement<any>
+    menu: React.ReactElement
     type?: typeColor | 'danger' | 'primary' | 'text'
     size?: 'large' | 'small' | 'mini'
     trigger?: 'hover' | 'click'
@@ -780,7 +780,7 @@ declare namespace ElementReact {
     placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
     trigger?: 'click' | 'focus' | 'hover'
     title?: string
-    content?: React.ReactElement<any> | string
+    content?: React.ReactElement | string
     popperClass?: string
     transition?: string
     visible?: boolean
@@ -811,12 +811,12 @@ declare namespace ElementReact {
     size?: 'large' | 'small' | 'mini'
     value?: string
     triggerOnFocus?: boolean
-    fetchSuggestions?(queryString?: string, callback?: (data?: any[]) => void): void
+    fetchSuggestions?(queryString?: string, callback?: (data?: any[]) => undefined): void
     onSelect?(item?): void
     onIconClick?(): void
-    icon?: React.ReactElement<any> | string
-    append?: React.ReactElement<any>
-    prepend?: React.ReactElement<any>
+    icon?: React.ReactElement | string
+    append?: React.ReactElement
+    prepend?: React.ReactElement
   }
   export class AutoComplete extends ElementReactLibs.Component<AutoCompleteProps, {}> { }
 
@@ -892,7 +892,7 @@ declare namespace ElementReact {
   interface CollapseItemProps extends ElementReactLibs.ComponentProps<{}> {
     onClick?(item?): void
     isActive?: boolean
-    title?: string | React.ReactElement<any>
+    title?: string | React.ReactElement
     name?: string | number
   }
   class CollapseItem extends ElementReactLibs.Component<CollapseItemProps, {}> { }
@@ -956,8 +956,8 @@ declare namespace ElementReact {
       disabled?: boolean
     }
     onChange?(value?, drection?: string, movedKeys?: any[]): void
-    leftFooter?: React.ReactElement<any>
-    rightFooter?: React.ReactElement<any>
+    leftFooter?: React.ReactElement
+    rightFooter?: React.ReactElement
   }
   export class Transfer extends ElementReactLibs.Component<TransferProps, {}> { }
 }
@@ -988,7 +988,7 @@ declare namespace ElementReactLibs {
   }
   interface DatePanelProps extends DatePickerBaseProps {
     value?: dateType | dateType[]
-    onPick?: (date: Date) => void
+    onPick?: (date: Date) => undefined
     isShowTime?: boolean
     showWeekNumber?: boolean
     format?: string

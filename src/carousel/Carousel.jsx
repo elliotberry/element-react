@@ -1,28 +1,21 @@
-/* @flow */
 
 import React from 'react';
 import { throttle } from 'throttle-debounce';
 import { Component, PropTypes, Transition, View } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 
-type State = {
-  items: Array<Component>,
-  activeIndex: number,
-  containerWidth: number,
-  timer: ?number,
-  hover: boolean
-};
 
-type Context = {
-  component: Carousel
-};
 
 export default class Carousel extends Component {
-  state: State;
-  throttledArrowClick: (index: number) => void;
-  throttledIndicatorHover: (index: number) => void;
+  state;
+  throttledArrowClick(index) {
+    this.setActiveItem(index);
+  }
+  throttledIndicatorHover(index) {
+    this.handleIndicatorHover(index);
+  }
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -44,7 +37,7 @@ export default class Carousel extends Component {
     this.resetItemPosition = this._resetItemPosition.bind(this)
   }
 
-  getChildContext(): Context {
+  getChildContext() {
     return {
       component: this
     };
@@ -62,7 +55,7 @@ export default class Carousel extends Component {
     this.startTimer();
   }
 
-  componentDidUpdate(props: Object, state: State): void {
+  componentDidUpdate(props, state) {
     addResizeListener(this.refs.root, this.resetItemPosition);
 
     if (state.activeIndex != this.state.activeIndex) {
@@ -74,22 +67,22 @@ export default class Carousel extends Component {
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     removeResizeListener(this.refs.root, this.resetItemPosition);
     this.pauseTimer();
   }
 
-  handleMouseEnter(): void {
+  handleMouseEnter() {
     this.setState({ hover: true });
     this.pauseTimer();
   }
 
-  handleMouseLeave(): void {
+  handleMouseLeave() {
     this.setState({ hover: false });
     this.startTimer();
   }
 
-  itemInStage(item: Component, index: number): mixed {
+  itemInStage(item, index) {
     const length = this.state.items.length;
 
     if (index === length - 1 && item.state.inStage && this.state.items[0].state.active ||
@@ -103,7 +96,7 @@ export default class Carousel extends Component {
     return false;
   }
 
-  handleButtonEnter(arrow: mixed): void {
+  handleButtonEnter(arrow) {
     this.state.items.forEach((item, index) => {
       if (arrow === this.itemInStage(item, index)) {
         item.setState({ hover: true });
@@ -111,19 +104,19 @@ export default class Carousel extends Component {
     });
   }
 
-  handleButtonLeave(): void {
+  handleButtonLeave() {
     this.state.items.forEach(item => {
       item.setState({ hover: false });
     });
   }
 
-  _resetItemPosition(oldIndex: number): void {
+  _resetItemPosition(oldIndex) {
     this.state.items.forEach((item, index) => {
       item.translateItem(index, this.state.activeIndex, oldIndex);
     });
   }
 
-  playSlides(): void {
+  playSlides() {
     let { activeIndex } = this.state;
 
     if (activeIndex < this.state.items.length - 1) {
@@ -135,26 +128,26 @@ export default class Carousel extends Component {
     this.setState({ activeIndex });
   }
 
-  pauseTimer(): void {
+  pauseTimer() {
     clearInterval(this.timer);
   }
 
-  startTimer(): void {
+  startTimer() {
     if (this.props.interval <= 0 || !this.props.autoplay) return;
     this.timer = setInterval(this.playSlides.bind(this), Number(this.props.interval));
   }
 
-  addItem(item: Component): void {
+  addItem(item) {
     this.state.items.push(item);
     this.setActiveItem(0);
   }
 
-  removeItem(item: Component): void {
+  removeItem(item) {
     this.state.items.splice(this.state.items.indexOf(item), 1);
     this.setActiveItem(0);
   }
 
-  setActiveItem(index: number): void {
+  setActiveItem(index) {
     let { activeIndex } = this.state;
 
     if (typeof index === 'string') {
@@ -186,21 +179,21 @@ export default class Carousel extends Component {
     this.setState({ activeIndex });
   }
 
-  prev(): void {
+  prev() {
     this.setActiveItem(this.state.activeIndex - 1);
   }
 
-  next(): void {
+  next() {
     this.setActiveItem(this.state.activeIndex + 1);
   }
 
-  handleIndicatorClick(index: number): void {
+  handleIndicatorClick(index) {
     this.setState({
       activeIndex: index
     });
   }
 
-  handleIndicatorHover(index: number): void {
+  handleIndicatorHover(index) {
     if (this.props.trigger === 'hover' && index !== this.state.activeIndex) {
       this.setState({
         activeIndex: index
@@ -208,7 +201,7 @@ export default class Carousel extends Component {
     }
   }
 
-  get iscard(): boolean {
+  get iscard() {
     const { type } = this.props;
     if (type) {
       return type === 'card' || type === 'flatcard';
@@ -216,7 +209,7 @@ export default class Carousel extends Component {
     return false;
   }
 
-  render(): React.DOM {
+  render() {
     const { height, arrow, indicatorPosition } = this.props;
     const { hover, activeIndex, items } = this.state;
     return (

@@ -1,18 +1,14 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 import Cover from './Cover';
-import type { IframeUploadState } from './Types';
 
 export default class IframeUpload extends Component {
-  state: IframeUploadState;
-
   static defaultProps = {
     name: 'file'
   };
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = {
       dragOver: false,
@@ -41,26 +37,26 @@ export default class IframeUpload extends Component {
     );
   }
 
-  onload(): void {
+  onload() {
     this.setState({ disabled: false });
   }
 
-  onDrop(e: SyntheticDragEvent<any>): void {
+  onDrop(e) {
     e.preventDefault();
     this.setState({ dragOver: false });
     this.uploadFiles(e.dataTransfer.files); // TODO
   }
 
-  handleChange(e: SyntheticInputEvent<any>): void {
+  handleChange(e) {
     if (e.target instanceof HTMLInputElement) {
-      const file: File = e.target.files[0];
+      const file = e.target.files[0];
       if (file) {
         this.uploadFiles(file);
       }
     }
   }
 
-  uploadFiles(file: File): void {
+  uploadFiles(file) {
     if (this.state.disabled) return;
     this.setState({ disabled: false, file });
     this.props.onStart && this.props.onStart(file);
@@ -79,23 +75,23 @@ export default class IframeUpload extends Component {
     dataSpan.innerHTML = '';
   }
 
-  handleClick(): void {
+  handleClick() {
     if (!this.state.disabled) {
       this.refs.input.click();
     }
   }
 
-  handleDragover(e: SyntheticDragEvent<any>): void {
+  handleDragover(e) {
     e.preventDefault();
     this.setState({ onDrop: true });
   }
 
-  handleDragleave(e: SyntheticDragEvent<any>): void {
+  handleDragleave(e) {
     e.preventDefault();
     this.setState({ onDrop: false });
   }
 
-  render(): React.DOM {
+  render() {
     const { drag, action, name, accept, listType } = this.props;
     const { frameName } = this.state;
     const classes = this.classNames({

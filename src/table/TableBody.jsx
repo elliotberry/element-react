@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { Component, PropTypes } from '../../libs';
 import { getRowIdentity, getValueByPath } from "./utils";
@@ -7,7 +6,6 @@ import { getRowIdentity, getValueByPath } from "./utils";
 import Checkbox from '../checkbox';
 import Tag from '../tag';
 
-import type {_Column, TableBodyProps} from "./Types";
 
 export default class TableBody extends Component<TableBodyProps> {
   static contextTypes = {
@@ -15,14 +13,14 @@ export default class TableBody extends Component<TableBodyProps> {
     layout: PropTypes.any,
   };
 
-  constructor(props: TableBodyProps) {
+  constructor(props) {
     super(props);
     ['handleMouseLeave'].forEach((fn) => {
       this[fn] = this[fn].bind(this);
     });
   }
 
-  handleMouseEnter(index: number) {
+  handleMouseEnter(index) {
     this.context.tableStore.setHoverRow(index);
   }
 
@@ -30,34 +28,34 @@ export default class TableBody extends Component<TableBodyProps> {
     this.context.tableStore.setHoverRow(null);
   }
 
-  handleCellMouseEnter(row: Object, column: _Column, event: SyntheticEvent<HTMLTableCellElement>) {
+  handleCellMouseEnter(row, column, event<HTMLTableCellElement>) {
     this.dispatchEvent('onCellMouseEnter', row, column, event.currentTarget, event)
   }
 
-  handleCellMouseLeave(row: Object, column: _Column, event: SyntheticEvent<HTMLTableCellElement>) {
+  handleCellMouseLeave(row, column, event<HTMLTableCellElement>) {
     this.dispatchEvent('onCellMouseLeave', row, column, event.currentTarget, event)
   }
 
-  handleCellClick(row: Object, column: _Column, event: SyntheticEvent<HTMLTableCellElement>) {
+  handleCellClick(row, column, event<HTMLTableCellElement>) {
     this.dispatchEvent('onCellClick', row, column, event.currentTarget, event)
     this.dispatchEvent('onRowClick', row, event, column);
   }
 
-  handleCellDbClick(row: Object, column: _Column, event: SyntheticEvent<HTMLTableCellElement>) {
+  handleCellDbClick(row, column, event<HTMLTableCellElement>) {
     this.dispatchEvent('onCellDbClick', row, column, event.currentTarget, event)
     this.dispatchEvent('onRowDbClick', row, column)
   }
 
-  handleRowContextMenu(row: Object, event: SyntheticEvent<HTMLTableRowElement>) {
+  handleRowContextMenu(row, event<HTMLTableRowElement>) {
     this.dispatchEvent('onRowContextMenu', row, event)
   }
 
-  dispatchEvent(name: string, ...args: Array<any>) {
+  dispatchEvent(name, ...args) {
     const fn = this.props[name];
     fn && fn(...args);
   }
 
-  isColumnHidden(index: number): boolean {
+  isColumnHidden(index) {
     const { tableStoreState, layout, ...props } = this.props;
     if (props.fixed === true || props.fixed === 'left') {
       return index >= this.leftFixedCount;
@@ -68,7 +66,7 @@ export default class TableBody extends Component<TableBodyProps> {
     }
   }
 
-  getRowStyle(row: Object, index: number): Object {
+  getRowStyle(row, index) {
     const { rowStyle } = this.props;
     if (typeof rowStyle === 'function') {
       return rowStyle.call(null, row, index);
@@ -77,7 +75,7 @@ export default class TableBody extends Component<TableBodyProps> {
     return rowStyle;
   }
 
-  getKeyOfRow(row: Object, index: number): number | string {
+  getKeyOfRow(row, index) | string {
     const { rowKey } = this.props;
     if (rowKey) {
       return getRowIdentity(row, rowKey);
@@ -91,27 +89,27 @@ export default class TableBody extends Component<TableBodyProps> {
   //
   // }
 
-  get columnsCount(): number {
+  get columnsCount() {
     return this.props.tableStoreState.columns.length;
   }
 
-  get leftFixedCount(): number {
+  get leftFixedCount() {
     return this.props.tableStoreState.fixedColumns.length;
   }
 
-  get rightFixedCount(): number {
+  get rightFixedCount() {
     return this.props.tableStoreState.rightFixedColumns.length;
   }
 
-  handleExpandClick(row: Object, rowKey: string | number) {
+  handleExpandClick(row, rowKey | number) {
     this.context.tableStore.toggleRowExpanded(row, rowKey);
   }
 
-  handleClick(row: Object) {
+  handleClick(row) {
     this.context.tableStore.setCurrentRow(row);
   }
 
-  renderCell(row: Object, column: _Column, index: number, rowKey: string | number): React.DOM {
+  renderCell(row, column, index, rowKey | number) {
     const { type, selectable } = column;
     if (type === 'expand') {
       return (

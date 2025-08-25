@@ -1,19 +1,13 @@
-/* @flow */
 
 import React from 'react';
 import AsyncValidator from 'async-validator';
 import { Component, PropTypes, Transition } from '../../libs';
 
-type State = {
-  error: string,
-  valid: boolean,
-  validating: boolean
-};
 
 export default class FormItem extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -23,7 +17,7 @@ export default class FormItem extends Component {
     }
   }
 
-  getChildContext(): Object {
+  getChildContext() {
     return {
       form: this
     };
@@ -39,15 +33,15 @@ export default class FormItem extends Component {
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.parent().removeField(this);
   }
 
-  parent(): Component {
+  parent() {
     return this.context.component;
   }
 
-  isRequired(): boolean {
+  isRequired() {
     let rules = this.getRules();
     let isRequired = false;
 
@@ -65,11 +59,11 @@ export default class FormItem extends Component {
     return isRequired;
   }
 
-  onFieldBlur(): void {
+  onFieldBlur() {
     this.validate('blur');
   }
 
-  onFieldChange(): void {
+  onFieldChange() {
     if (this.validateDisabled) {
       this.validateDisabled = false;
 
@@ -82,7 +76,7 @@ export default class FormItem extends Component {
     });
   }
 
-  validate(trigger: string, cb?: Function): boolean | void {
+  validate(trigger, cb) {
     const rules = this.getFilteredRule(trigger);
 
     if (!rules || rules.length === 0) {
@@ -112,7 +106,7 @@ export default class FormItem extends Component {
     });
   }
 
-  getInitialValue(): string | void {
+  getInitialValue() {
     const value = this.parent().props.model[this.props.prop];
 
     if (value === undefined) {
@@ -122,7 +116,7 @@ export default class FormItem extends Component {
     }
   }
 
-  resetField(): void {
+  resetField() {
     let { valid, error } = this.state;
 
     valid = true;
@@ -141,7 +135,7 @@ export default class FormItem extends Component {
     }
   }
 
-  getRules(): Array<any> {
+  getRules() {
     let formRules = this.parent().props.rules;
     let selfRuels = this.props.rules;
 
@@ -149,7 +143,7 @@ export default class FormItem extends Component {
     return [].concat(selfRuels || formRules || []);
   }
 
-  getFilteredRule(trigger: string): Array<any> {
+  getFilteredRule(trigger) {
     const rules = this.getRules();
 
     return rules.filter(rule => {
@@ -162,7 +156,7 @@ export default class FormItem extends Component {
     }).map(rule => Object.assign({}, rule));
   }
 
-  labelStyle(): { width?: number | string } {
+  labelStyle() {
     const ret = {};
 
     if (this.parent().props.labelPosition === 'top') return ret;
@@ -176,7 +170,7 @@ export default class FormItem extends Component {
     return ret;
   }
 
-  contentStyle(): { marginLeft?: number | string } {
+  contentStyle() {
     const ret = {};
 
     if (this.parent().props.labelPosition === 'top' || this.parent().props.inline) return ret;
@@ -190,14 +184,14 @@ export default class FormItem extends Component {
     return ret;
   }
 
-  fieldValue(): mixed {
+  fieldValue() {
     const model = this.parent().props.model;
     if (!model || !this.props.prop) { return; }
     const temp = this.props.prop.split(':');
     return temp.length > 1 ? model[temp[0]][temp[1]] : model[this.props.prop];
   }
 
-  render(): React.DOM {
+  render() {
     const { error, validating } = this.state;
     const { label, required } = this.props;
 

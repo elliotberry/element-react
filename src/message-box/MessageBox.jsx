@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { Component, PropTypes, Transition, View } from '../../libs';
 import { cleanScrollBar } from '../table/utils';
@@ -14,16 +12,8 @@ const typeMap = {
   error: 'circle-cross'
 };
 
-type State = {
-  visible: boolean,
-  inputValue?: string,
-  editorErrorMessage?: string
-};
-
 export default class MessageBox extends Component {
-  state: State;
-
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -38,26 +28,26 @@ export default class MessageBox extends Component {
     document.activeElement && document.activeElement.blur()
   }
 
-  confirmButtonText(): string {
+  confirmButtonText() {
     return this.props.confirmButtonText || i18n.t('el.messagebox.confirm');
   }
 
-  cancelButtonText(): string {
+  cancelButtonText() {
     return this.props.cancelButtonText || i18n.t('el.messagebox.cancel');
   }
 
-  onChange(value: string): void {
+  onChange(value) {
     this.setState({
       inputValue: value
     });
     this.validate(value);
   }
 
-  typeClass(): string {
+  typeClass() {
     return this.props.type && typeMap[this.props.type] && `el-icon-${typeMap[this.props.type]}`;
   }
 
-  validate(value: string): boolean {
+  validate(value) {
     const { inputPattern, inputValidator, inputErrorMessage } = this.props;
     let editorErrorMessage;
 
@@ -82,7 +72,7 @@ export default class MessageBox extends Component {
     return !editorErrorMessage;
   }
 
-  handleAction(action: string): void {
+  handleAction(action) {
     const { modal, promise, showInput } = this.props;
 
     if (modal) {
@@ -115,13 +105,13 @@ export default class MessageBox extends Component {
     this.close();
   }
 
-  close(): void {
+  close() {
     this.setState({
       visible: false
     });
   }
 
-  render(): React.DOM {
+  render() {
     const { willUnmount, title, showClose, message, showInput, inputPlaceholder, showCancelButton, cancelButtonClass, showConfirmButton, confirmButtonClass, customClass, inputType } = this.props;
     const { visible, editorErrorMessage } = this.state;
 

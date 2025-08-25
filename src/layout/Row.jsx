@@ -11,7 +11,7 @@ const Row = React.forwardRef(({
   type,
   justify = 'start',
   align = 'top',
-  tag: Tag = 'div',
+  tag = 'div',
   children,
   className,
   style,

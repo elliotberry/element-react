@@ -33,7 +33,7 @@ const Rate = React.forwardRef(({
     lowClass: iconClasses[0],
     mediumClass: iconClasses[1],
     highClass: iconClasses[2],
-    voidClass: voidIconClass,
+    voidClassIconClass,
     disabledVoidClass: disabledVoidIconClass
   };
 
@@ -41,7 +41,7 @@ const Rate = React.forwardRef(({
     lowColor: colors[0],
     mediumColor: colors[1],
     highColor: colors[2],
-    voidColor: voidColor,
+    voidColorColor,
     disabledVoidColor: disabledVoidColor
   };
 
@@ -93,7 +93,7 @@ const Rate = React.forwardRef(({
   const getIconStyle = (item) => {
     const voidColorValue = disabled ? colorMap.disabledVoidColor : colorMap.voidColor;
     return {
-      color: item <= currentValue ? activeColor() : voidColorValue
+      color: item <= currentValue ? activeColor() ColorValue
     };
   };
 

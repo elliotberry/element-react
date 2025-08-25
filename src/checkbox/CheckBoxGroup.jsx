@@ -1,16 +1,12 @@
-/* @flow */
 
 import React from "react";
 import { Component, PropTypes } from "../../libs";
 
-type State = {
-  options: Array<string | number>
-};
 
 export default class CheckboxGroup extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -18,7 +14,7 @@ export default class CheckboxGroup extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps: Object): void {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
       this.setState({
         options: nextProps.value
@@ -32,7 +28,7 @@ export default class CheckboxGroup extends Component {
     };
   }
 
-  onChange(value: string | number, checked: boolean): void {
+  onChange(value | number, checked) {
     const index = this.state.options.indexOf(value);
 
     if (checked) {
@@ -50,7 +46,7 @@ export default class CheckboxGroup extends Component {
     }
   }
 
-  render(): React.DOM {
+  render() {
     const { options } = this.state;
 
     const children = React.Children.map(this.props.children, (child, index) => {

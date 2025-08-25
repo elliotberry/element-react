@@ -1,38 +1,25 @@
-/* @flow */
-
 import React, { Component } from 'react';
 
 const ANIMATION_DURATION = 300;
 
-type Props = {
-  isShow: boolean,
-  children: ?React.DOM
-};
-
-export default class CollapseTransition extends Component<Props, {}> {
-  props: Props;
-
-  selfRef: any;
-  leaveTimer: any;
-  enterTimer: any;
-
-  componentDidMount(): void {
+export default class CollapseTransition extends Component {
+  componentDidMount() {
     this.beforeEnter();
     if (this.props.isShow) {
       this.enter();
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.beforeLeave();
     this.leave();
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.isShow !== nextProps.isShow) this.triggerChange(nextProps.isShow);
   }
 
-  triggerChange(isShow: boolean): void {
+  triggerChange(isShow) {
     clearTimeout(this.enterTimer);
     clearTimeout(this.leaveTimer);
     if (isShow) {
@@ -44,7 +31,7 @@ export default class CollapseTransition extends Component<Props, {}> {
     }
   }
 
-  beforeEnter(): void {
+  beforeEnter() {
     const el = this.selfRef;
     //prepare
     el.dataset.oldPaddingTop = el.style.paddingTop;
@@ -55,7 +42,7 @@ export default class CollapseTransition extends Component<Props, {}> {
     el.style.paddingBottom = 0;
   }
 
-  enter(): void {
+  enter() {
     const el = this.selfRef;
     //start
     el.style.display = 'block';
@@ -74,14 +61,14 @@ export default class CollapseTransition extends Component<Props, {}> {
     this.enterTimer = setTimeout(() => this.afterEnter(), ANIMATION_DURATION);
   }
 
-  afterEnter(): void {
+  afterEnter() {
     const el = this.selfRef;
     el.style.display = 'block';
     el.style.height = '';
     el.style.overflow = el.dataset.oldOverflow;
   }
 
-  beforeLeave(): void {
+  beforeLeave() {
     const el = this.selfRef;
     el.dataset.oldPaddingTop = el.style.paddingTop;
     el.dataset.oldPaddingBottom = el.style.paddingBottom;
@@ -94,7 +81,7 @@ export default class CollapseTransition extends Component<Props, {}> {
     el.style.overflow = 'hidden';
   }
 
-  leave(): void {
+  leave() {
     const el = this.selfRef;
     if (el.scrollHeight !== 0) {
       el.style.height = 0;
@@ -104,7 +91,7 @@ export default class CollapseTransition extends Component<Props, {}> {
     this.leaveTimer = setTimeout(() => this.afterLeave(), ANIMATION_DURATION);
   }
 
-  afterLeave(): void {
+  afterLeave() {
     const el = this.selfRef;
     if (!el) return;
 
@@ -115,7 +102,7 @@ export default class CollapseTransition extends Component<Props, {}> {
     el.style.paddingBottom = el.dataset.oldPaddingBottom;
   }
 
-  render(): React.DOM {
+  render() {
     return (
       <div
         className="collapse-transition"

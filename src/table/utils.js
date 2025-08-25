@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import type { _Column } from "./Types";
 
 const _document = (document: any);
 

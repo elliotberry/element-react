@@ -1,37 +1,33 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 
-type State = {
-  activeNames: Array<string>
-};
 
 export default class Collapse extends Component {
-  state: State;
+  state;
 
   static defaultProps = {
     value: [],
     onChange() {}
   };
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = {
       activeNames: [].concat(this.props.value)
     };
   }
 
-  componentWillReceiveProps (nextProps: Object) {
+  componentWillReceiveProps (nextProps) {
     this.setActiveNames(nextProps.value)
   }
 
-  setActiveNames(activeNames: string | Array<string>): void {
+  setActiveNames(activeNames) {
     activeNames = [].concat(activeNames);
     this.setState({ activeNames }, () => this.props.onChange(activeNames));
   }
 
-  handleItemClick(name: string): void {
+  handleItemClick(name) {
     const { activeNames } = this.state;
 
     if (this.props.accordion) {
@@ -47,7 +43,7 @@ export default class Collapse extends Component {
     }
   }
 
-  render(): React.DOM {
+  render() {
     const content = React.Children.map(this.props.children, (child, idx) => {
       const name = child.props.name || idx.toString();
       return React.cloneElement(child, {

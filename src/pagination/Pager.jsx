@@ -1,23 +1,13 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Component, PropTypes } from '../../libs';
 
-type State = {
-  internalCurrentPage: number,
-  internalPageSize: number,
-
-  quickprevIconClass: string,
-  quicknextIconClass: string,
-  showPrevMore: boolean,
-  showNextMore: boolean
-};
 
 export default class Pager extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object, context: Object) {
+  constructor(props, context) {
     super(props, context);
 
     this.state = {
@@ -31,7 +21,7 @@ export default class Pager extends Component {
     };
   }
 
-  onPagerClick(e: SyntheticEvent<any>): void {
+  onPagerClick(e) {
     const target = e.target;
     if (target instanceof HTMLElement) {
       if (target.tagName === 'UL') {
@@ -64,7 +54,7 @@ export default class Pager extends Component {
     }
   }
 
-  getPages(): Array<number> {
+  getPages() {
     const pagerCount = 7;
     const currentPage = Number(this.props.currentPage);
     const pageCount = Number(this.props.pageCount);
@@ -115,7 +105,7 @@ export default class Pager extends Component {
     return array;
   }
 
-  render(): React.DOM {
+  render() {
     const pagers = this.getPages();
     const { currentPage, pageCount } = this.props;
     const { quickprevIconClass, quicknextIconClass } = this.state;

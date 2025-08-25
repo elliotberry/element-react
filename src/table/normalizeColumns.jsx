@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { getValueByPath } from "./utils";
 
-import type {
   Column,
   _Column,
 } from "./Types";
 
-function defaultRender(row: Object, column: _Column) {
+function defaultRender(row, column) {
   return getValueByPath(row, column.property);
 }
 
@@ -49,7 +48,7 @@ const forced = {
 
 let columnIDSeed = 1;
 
-export default function normalizeColumns(columns: Array<Column>, tableIDSeed: number): Array<_Column> {
+export default function normalizeColumns(columns, tableIDSeed) {
   return columns.map((column) => {
     let _column;
     if (column.subColumns) {

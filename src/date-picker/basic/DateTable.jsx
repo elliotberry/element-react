@@ -1,4 +1,3 @@
-//@flow
 import React from 'react'
 
 import { PropTypes, Component } from '../../../libs';
@@ -16,7 +15,6 @@ import {
 } from '../utils'
 import Locale from '../../locale'
 
-import type { DateTableProps } from '../Types';
 
 
 function isFunction(func) {
@@ -32,9 +30,9 @@ const clearHours = function (time) {
 const WEEKS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 export default class DateTable extends Component {
-  state: any
+  state
 
-  constructor(props: DateTableProps) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -83,14 +81,14 @@ export default class DateTable extends Component {
       const row = rows[i];
       /*
       cell: {
-        type: string, one of 'week' | 'normal'
+        type, one of 'week' | 'normal'
         text: String,
-        row: number,  row index,
-        column: number, column index;
-        inRange: boolean,
-        start: boolean,
-        end: boolean,
-        disabled: boolean
+        row,  row index,
+        column, column index;
+        inRange,
+        start,
+        end,
+        disabled
       }
       */
       if (showWeekNumber) {//prepend week info to the head of each row array
@@ -100,7 +98,7 @@ export default class DateTable extends Component {
       }
 
       for (let j = 0; j < 7; j++) {  // columns
-        let cell: any = row[showWeekNumber ? j + 1 : j];
+        let cell = row[showWeekNumber ? j + 1 : j];
         if (!cell) {
           row[showWeekNumber ? j + 1 : j] = {
             row: i,
@@ -170,7 +168,7 @@ export default class DateTable extends Component {
   }
 
   // calc classnames for cell
-  getCellClasses(cell: any) {
+  getCellClasses(cell) {
     const { selectionMode, date } = this.props
 
     let classes = [];
@@ -214,7 +212,7 @@ export default class DateTable extends Component {
     return classes.join(' ');
   }
 
-  getMarkedRangeRows(): any[] {
+  getMarkedRangeRows()[] {
     const { showWeekNumber, minDate, selectionMode, rangeState } = this.props
     const rows = this.getRows();
     if (!(selectionMode === SELECTION_MODES.RANGE && rangeState.selecting && rangeState.endDate instanceof Date)) return rows;
@@ -238,7 +236,7 @@ export default class DateTable extends Component {
     return rows;
   }
 
-  isWeekActive(cell: any): boolean {
+  isWeekActive(cell) {
     if (this.props.selectionMode !== SELECTION_MODES.WEEK) return false;
     if (!this.props.value) return false;
 
@@ -261,7 +259,7 @@ export default class DateTable extends Component {
   }
 
 
-  handleMouseMove(event: SyntheticMouseEvent<any>) {
+  handleMouseMove(event) {
     const { showWeekNumber, onChangeRange, rangeState, selectionMode } = this.props
 
     const getDateOfCell = (row, column, showWeekNumber) => {
@@ -271,7 +269,7 @@ export default class DateTable extends Component {
 
     if (!(selectionMode === SELECTION_MODES.RANGE && rangeState.selecting)) return;
 
-    const target: any = event.target;
+    const target = event.target;
     if (target.tagName !== 'TD') return;
 
     const column = target.cellIndex;
@@ -281,8 +279,8 @@ export default class DateTable extends Component {
     onChangeRange(rangeState)
   }
 
-  handleClick(event: SyntheticEvent<any>) {
-    let target: any = event.target;
+  handleClick(event) {
+    let target = event.target;
 
     if (target.tagName !== 'TD') return;
     if (hasClass(target, 'disabled') || hasClass(target, 'week')) return;
@@ -402,28 +400,28 @@ DateTable.propTypes = {
   // current date value, use picked.
   value: PropTypes.instanceOf(Date),
   /*
-  (data, closePannel: boolean)=>()
+  (data, closePannel)=>()
 
     data:
       if selectionMode = range: // notify when ranges is change
-        minDate: Date|null,
-        maxDate: Date|null
+        minDate,
+        maxDate
 
       if selectionMode = date
-        date: Date
+        date
 
       if selectionMode = week:
-        year: number
-        week: number,
-        value: string,
-        date: Date
+        year
+        week,
+        value,
+        date
   */
   onPick: PropTypes.func.isRequired,
 
   /*
   ({
-    endDate: Date,
-    selecting: boolean,
+    endDate,
+    selecting,
   })=>()
   */
   onChangeRange: PropTypes.func,

@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
@@ -7,36 +6,7 @@ import TransferPanel from './TransferPanel';
 
 import i18n from '../locale';
 
-type Props = {
-  data: Array<Object>,
-  titles: Array<string>,
-  buttonTexts: Array<string>,
-  filterPlaceholder?: string,
-  filterMethod?: Function,
-  leftDefaultChecked: Array<Object>,
-  rightDefaultChecked: Array<Object>,
-  renderContent?: Function,
-  value: Array<Object>,
-  footerFormat?: Object,
-  filterable?: boolean,
-  propsAlias: {
-    label: string,
-    key: string,
-    disabled: string
-  },
-  onChange: Function,
-  leftFooter?: React.DOM,
-  rightFooter?: React.DOM
-};
-
-type State = {
-  leftChecked: Array<Object>,
-  rightChecked: Array<Object>
-};
-
 export default class Transfer extends Component {
-  props: Props;
-  state: State;
   static propTypes = {
     data: PropTypes.array,
     titles: PropTypes.array,
@@ -72,7 +42,7 @@ export default class Transfer extends Component {
     onChange() {}
   };
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state = {
       leftChecked: [],
@@ -90,11 +60,11 @@ export default class Transfer extends Component {
     }
   }
 
-  onSourceCheckedChange = (val: Array<Object>) => {
+  onSourceCheckedChange = (val) => {
     this.setState({ leftChecked: val });
   };
 
-  onTargetCheckedChange = (val: Array<Object>) => {
+  onTargetCheckedChange = (val) => {
     this.setState({ rightChecked: val });
   };
 
@@ -125,17 +95,17 @@ export default class Transfer extends Component {
       this.props.onChange(currentValue, 'right', leftChecked));
   };
 
-  get sourceData(): Array<Object> {
+  get sourceData() {
     const { data, value, propsAlias } = this.props;
     return data.filter(item => !value.includes(item[propsAlias.key]));
   }
 
-  get targetData(): Array<Object> {
+  get targetData() {
     const { data, value, propsAlias } = this.props;
     return data.filter(item => value.includes(item[propsAlias.key]));
   }
 
-  render(): React.DOM {
+  render() {
     const {
       filterPlaceholder,
       titles,

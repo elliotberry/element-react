@@ -11,7 +11,7 @@ export type Column = {
   minWidth?: number,
   fixed?: true | 'left' | 'right',
   render?: (row: Object, column: _Column, index: number) => Object,
-  renderHeader?: () => void,
+  renderHeader?: () => undefined,
   sortable: boolean | 'custom',
   sortMethod?: (a: Object, b: Object) => boolean,
   resizable: boolean,
@@ -134,12 +134,12 @@ export type FilterProps = {
   visible: boolean,
   multiple: boolean,
   filters: Array<Object>,
-  filteredValue: Array<any>,
+  filteredValue: Array,
   filerPlacement?: string,
-  onFilterChange: (value: any) => void,
-  toggleFilter: () => void
+  onFilterChange: (value: any) => undefined,
+  toggleFilter: () => undefined
 }
 
 export type FilterState = {
-  filteredValue: Array<any>,
+  filteredValue: Array,
 }

@@ -1,14 +1,12 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../../libs';
 import draggable from '../draggable';
-import type { AlphaSliderState, DragOptions } from '../Types';
 
 export default class AlphaSlider extends Component {
-  state: AlphaSliderState;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = {
       thumbLeft: 0,
@@ -19,7 +17,7 @@ export default class AlphaSlider extends Component {
 
   componentDidMount() {
     const { bar, thumb } = this.refs;
-    const dragConfig: DragOptions = {
+    const dragConfig = {
       drag: event => {
         this.handleDrag(event);
       },
@@ -32,7 +30,7 @@ export default class AlphaSlider extends Component {
     this.update();
   }
 
-  handleClick(event: SyntheticMouseEvent<any>): void {
+  handleClick(event) {
     const thumb = this.refs.thumb;
     const target = event.target;
     if (target !== thumb) {
@@ -40,7 +38,7 @@ export default class AlphaSlider extends Component {
     }
   }
 
-  handleDrag(event: SyntheticMouseEvent<any>): void {
+  handleDrag(event) {
     const { vertical, color } = this.props;
     const { onChange } = this.context;
     const rect = this.$el.getBoundingClientRect();
@@ -74,7 +72,7 @@ export default class AlphaSlider extends Component {
     onChange(color);
   }
 
-  getThumbLeft(): number {
+  getThumbLeft() {
     const { vertical, color } = this.props;
     if (vertical) return 0;
     const el = this.$el;
@@ -84,7 +82,7 @@ export default class AlphaSlider extends Component {
     return Math.round(alpha * (el.offsetWidth - thumb.offsetWidth / 2) / 100);
   }
 
-  getThumbTop(): number {
+  getThumbTop() {
     const { vertical, color } = this.props;
     if (!vertical) return 0;
     const el = this.$el;
@@ -94,7 +92,7 @@ export default class AlphaSlider extends Component {
     return Math.round(alpha * (el.offsetHeight - thumb.offsetHeight / 2) / 100);
   }
 
-  getBackground(): ?string {
+  getBackground() {
     const { color } = this.props;
     if (color && color.value) {
       const { r, g, b } = color.toRgb();
@@ -103,7 +101,7 @@ export default class AlphaSlider extends Component {
     return null;
   }
 
-  update(): void {
+  update() {
     this.setState({
       thumbLeft: this.getThumbLeft(),
       thumbTop: this.getThumbTop(),
@@ -111,7 +109,7 @@ export default class AlphaSlider extends Component {
     });
   }
 
-  render(): React.DOM {
+  render() {
     const { vertical } = this.props;
     const { thumbLeft, thumbTop, background } = this.state;
     return (

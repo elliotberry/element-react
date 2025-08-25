@@ -25,7 +25,7 @@ export default class DatePanel extends PopperBase {
 
     return Object.assign({
       // user picked date value
-      // value: Date | null
+      // value | null
       value: PropTypes.instanceOf(Date),
       // (Date)=>void
       onPick: PropTypes.func.isRequired,

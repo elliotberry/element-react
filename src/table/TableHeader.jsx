@@ -1,16 +1,14 @@
-// @flow
 import * as React from 'react';
 import { throttle } from 'throttle-debounce';
 import { Component, PropTypes } from '../../libs';
 import Checkbox from '../checkbox';
 import FilterPannel from './FilterPannel';
 
-import type {
   TableHeaderProps,
   _Column,
 } from './Types';
 
-const _document = (document: any);
+const _document = (document);
 
 export default class TableHeader extends Component<TableHeaderProps> {
   static contextTypes = {
@@ -19,7 +17,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     table: PropTypes.any,
   };
 
-  constructor(props: TableHeaderProps) {
+  constructor(props) {
     super(props);
 
     ['handleHeaderClick', 'handleFilterClick', 'handleSortClick'].forEach((fn) => {
@@ -27,24 +25,24 @@ export default class TableHeader extends Component<TableHeaderProps> {
     })
   }
 
-  get columnsCount(): number {
+  get columnsCount() {
     return this.props.tableStoreState.columns.length;
   }
 
-  get leftFixedCount(): number {
+  get leftFixedCount() {
     return this.props.tableStoreState.fixedColumns.length;
   }
 
-  get rightFixedCount(): number {
+  get rightFixedCount() {
     return this.props.tableStoreState.rightFixedColumns.length;
   }
 
-  handleMouseMove(column: _Column, event: SyntheticMouseEvent<HTMLTableCellElement>) {
+  handleMouseMove(column, event<HTMLTableCellElement>) {
     if (!column.resizable) return;
     if (column.subColumns && column.subColumns.length) return;
 
     if (!this.dragging && this.props.border) {
-      let target: any = event.target;
+      let target = event.target;
       while (target && target.tagName !== 'TH') {
         target = target.parentNode;
       }
@@ -61,7 +59,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     }
   }
 
-  handleMouseDown(column: _Column, event: SyntheticMouseEvent<HTMLTableCellElement>) {
+  handleMouseDown(column, event<HTMLTableCellElement>) {
     if (this.draggingColumn) {
       this.dragging = true;
 
@@ -69,7 +67,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
 
       const { el: tableEl, resizeProxy } = table;
       const tableLeft = tableEl.getBoundingClientRect().left;
-      let columnEl: Object = event.target;
+      let columnEl = event.target;
       while (columnEl && columnEl.tagName !== 'TH') {
         columnEl = columnEl.parentNode;
       }
@@ -87,14 +85,14 @@ export default class TableHeader extends Component<TableHeaderProps> {
       _document.onselectstart = () => false;
       _document.ondragstart = () => false;
 
-      const handleMouseMove = (event: MouseEvent) => {
+      const handleMouseMove = (event) => {
         const deltaLeft = event.clientX - startMouseLeft;
         const proxyLeft = startLeft + deltaLeft;
 
         resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
       };
 
-      const handleMouseUp = (event: MouseEvent) => {
+      const handleMouseUp = (event) => {
         if (this.dragging) {
           const finalLeft = parseInt(resizeProxy.style.left, 10);
           const columnWidth = finalLeft - startColumnLeft;
@@ -128,7 +126,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     _document.body.style.cursor = "";
   }
 
-  handleHeaderClick(column: _Column, event: SyntheticEvent<HTMLTableCellElement>) {
+  handleHeaderClick(column, event<HTMLTableCellElement>) {
     if (column.sortable && !column.filters) {
       this.handleSortClick(column, null, event);
     } else if (column.filters && !column.sortable) {
@@ -138,11 +136,11 @@ export default class TableHeader extends Component<TableHeaderProps> {
     }
   }
 
-  handleSortClick(column: _Column, givenOrder: ?string, event: SyntheticEvent<any>) {
+  handleSortClick(column, givenOrder, event) {
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
 
-    let target: Object = event.target;
+    let target = event.target;
     while (target && target.tagName !== 'TH') {
       target = target.parentNode;
     }
@@ -168,7 +166,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     this.dispatchEvent('onHeaderClick', column, event)
   }
 
-  handleFilterClick(column: _Column, event?: SyntheticEvent<any>) {
+  handleFilterClick(column, event?) {
     if (event) {
       event.stopPropagation();
       event.nativeEvent.stopImmediatePropagation();
@@ -179,16 +177,16 @@ export default class TableHeader extends Component<TableHeaderProps> {
     event && this.dispatchEvent('onHeaderClick', column, event)
   }
 
-  dispatchEvent(name: string, ...args: Array<any>) {
+  dispatchEvent(name, ...args) {
     const fn = this.props[name];
     fn && fn(...args);
   }
 
-  changeFilteredValue(column: _Column, value: any) {
+  changeFilteredValue(column, value) {
     this.context.tableStore.changeFilteredValue(column, value);
   }
 
-  isCellHidden(index: number, columns: Array<_Column>): boolean {
+  isCellHidden(index, columns) {
     const { fixed } = this.props;
     if (fixed === true || fixed === 'left') {
       return index >= this.leftFixedCount;
@@ -203,7 +201,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     }
   }
 
-  renderHeader(column: _Column): ?React.Node {
+  renderHeader(column).Node {
     const { type } = column;
     if (type === 'expand') {
       return column.label || '';

@@ -8,11 +8,11 @@ export type ColorType = {
   enableAlpha: boolean,
   format: string,
   value: string,
-  set: (props: string, value: mixed) => void,
+  set: (props: string, value: mixed) => undefined,
   get: (props: string) => mixed,
   toRgb: () => { r: number, g: number, b: number },
-  fromString: (value: string) => void,
-  doOnChange: () => void
+  fromString: (value: string) => undefined,
+  doOnChange: () => undefined
 };
 
 export type ColorPickerState = {
@@ -40,6 +40,6 @@ export type SvPanelState = {
 };
 
 export type DragOptions = {
-  drag: (event: SyntheticMouseEvent<any>) => void,
-  end: (event: SyntheticMouseEvent<any>) => void
+  drag: (event: SyntheticMouseEvent) => undefined,
+  end: (event: SyntheticMouseEvent) => undefined
 };

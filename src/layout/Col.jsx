@@ -15,7 +15,7 @@ const Col = React.forwardRef(({
   sm,
   md,
   lg,
-  tag: Tag = 'div',
+  tag = 'div',
   children,
   className,
   style,

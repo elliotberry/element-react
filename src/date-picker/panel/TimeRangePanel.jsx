@@ -1,11 +1,9 @@
-//@flow
 import React from 'react';
 
 import { PropTypes } from '../../../libs';
 import { limitRange, parseDate } from '../utils';
 import TimeSpinner from '../basic/TimeSpinner';
 import Locale from '../../locale';
-import type { TimeRangePanelProps } from '../Types';
 import { PopperBase } from './PopperBase'
 
 const MIN_TIME = parseDate('00:00:00', 'HH:mm:ss');
@@ -37,7 +35,7 @@ const mapPropsToState = props => {
   const { currentDates, format } = props;
   const { minTime, maxTime } = calcTime(currentDates);
 
-  const state: any = {
+  const state = {
     format: format || 'HH:mm:ss',
     minTime,
     maxTime,
@@ -51,7 +49,7 @@ const mapPropsToState = props => {
 };
 
 export default class TimeRangePanel extends PopperBase {
-  state: any;
+  state;
 
   static get propTypes() {
     return Object.assign(
@@ -61,7 +59,7 @@ export default class TimeRangePanel extends PopperBase {
         /*
         onPicked: (value, isKeepPannelOpen)=>()
 
-        @param value: Date| Date[] |null
+        @param value| Date[] |null
         @param isKeepPannelOpen:boolean, should parent close the pannel
         */
         onPicked: PropTypes.func.isRequired,
@@ -79,7 +77,7 @@ export default class TimeRangePanel extends PopperBase {
     };
   }
 
-  constructor(props: TimeRangePanelProps) {
+  constructor(props) {
     super(props);
 
     this.state = Object.assign(
@@ -91,13 +89,13 @@ export default class TimeRangePanel extends PopperBase {
     );
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps) {
     this.setState(mapPropsToState(nextProps));
   }
 
   // type = hours | minutes | seconds
-  // date: {type: number}
-  handleChange(date: { hours?: number, minutes?: number, seconds?: number }, field: string) {
+  // date: {type}
+  handleChange(date: { hours?, minutes?, seconds? }, field) {
     const ndate = this.state[field];
 
     if (date.hours !== undefined) {
@@ -112,7 +110,7 @@ export default class TimeRangePanel extends PopperBase {
       ndate.setSeconds(date.seconds);
     }
 
-    const state: any = {
+    const state = {
       [field]: ndate
     };
 
@@ -121,7 +119,7 @@ export default class TimeRangePanel extends PopperBase {
 
   }
 
-  handleConfirm(isKeepPannelOpen: boolean = false) {
+  handleConfirm(isKeepPannelOpen = false) {
     const { minTime, maxTime } = this.state;
     const { onPicked } = this.props;
 

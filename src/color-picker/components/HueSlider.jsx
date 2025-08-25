@@ -1,14 +1,12 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../../libs';
 import draggable from '../draggable';
-import type { HueSliderState, DragOptions } from '../Types';
 
 export default class HueSlider extends Component {
   state: HueSliderState;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = {
       thumbLeft: 0,
@@ -18,7 +16,7 @@ export default class HueSlider extends Component {
 
   componentDidMount() {
     const { bar, thumb } = this.refs;
-    const dragConfig: DragOptions = {
+    const dragConfig = {
       drag: event => {
         this.handleDrag(event);
       },
@@ -31,7 +29,7 @@ export default class HueSlider extends Component {
     this.update();
   }
 
-  handleClick(event: SyntheticMouseEvent<any>): void {
+  handleClick(event) {
     const thumb = this.refs.thumb;
     const target = event.target;
     if (target !== thumb) {
@@ -39,7 +37,7 @@ export default class HueSlider extends Component {
     }
   }
 
-  handleDrag(event: SyntheticMouseEvent<any>): void {
+  handleDrag(event) {
     const rect = this.$el.getBoundingClientRect();
     const { thumb } = this.refs;
     const { vertical, color } = this.props;
@@ -67,7 +65,7 @@ export default class HueSlider extends Component {
     onChange(color);
   }
 
-  getThumbLeft(): number {
+  getThumbLeft() {
     const { vertical, color } = this.props;
     if (vertical) return 0;
     const el = this.$el;
@@ -77,7 +75,7 @@ export default class HueSlider extends Component {
     return Math.round(hue * (el.offsetWidth - thumb.offsetWidth / 2) / 360);
   }
 
-  getThumbTop(): number {
+  getThumbTop() {
     const { vertical, color } = this.props;
     if (!vertical) return 0;
     const el = this.$el;
@@ -87,14 +85,14 @@ export default class HueSlider extends Component {
     return Math.round(hue * (el.offsetHeight - thumb.offsetHeight / 2) / 360);
   }
 
-  update(): void {
+  update() {
     this.setState({
       thumbLeft: this.getThumbLeft(),
       thumbTop: this.getThumbTop()
     });
   }
 
-  render(): React.DOM {
+  render() {
     const { vertical } = this.props;
     const { thumbLeft, thumbTop } = this.state;
     return (

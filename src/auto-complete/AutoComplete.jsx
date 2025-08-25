@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,46 +6,16 @@ import { Component, PropTypes } from '../../libs';
 import Input from '../input';
 import Suggestions from './Suggestions';
 
-type State = {
-  inputValue: string,
-  isFocus: boolean,
-  suggestions: Array<any>,
-  loading: boolean,
-  highlightedIndex: number,
-}
-
-type Props = {
-  popperClass: string,
-  placeholder: string,
-  disabled: boolean,
-  name: string,
-  size: string,
-  value: string,
-  triggerOnFocus: boolean,
-  fetchSuggestions: Function,
-  onSelect: Function,
-  onChange: Function,
-  onIconClick: Function,
-  icon: Element | string,
-  append: Element,
-  prepend: Element,
-  onFocus: Function,
-  onBlur: Function
-}
-
-type AutoCompleteDefaultProps = {
-  triggerOnFocus: boolean,
-};
 
 class AutoComplete extends Component {
-  props: Props;
-  state: State;
+  props;
+  state;
 
-  static defaultProps: AutoCompleteDefaultProps = {
+  static defaultProps = {
     triggerOnFocus: true,
   };
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -64,11 +33,11 @@ class AutoComplete extends Component {
     };
   }
 
-  componentWillReceiveProps(props: Props): void {
+  componentWillReceiveProps(props) {
     this.setState({ inputValue: props.value });
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate() {
     const visible = this.suggestionVisible();
     const reference = ReactDOM.findDOMNode(this.inputNode);
 
@@ -79,10 +48,10 @@ class AutoComplete extends Component {
     }
   }
 
-  getData(queryString: string): void {
+  getData(queryString) {
     this.setState({ loading: true });
 
-    this.props.fetchSuggestions(queryString, (suggestions: Array<any>) => {
+    this.props.fetchSuggestions(queryString, (suggestions) => {
       this.setState({ loading: false });
 
       if (Array.isArray(suggestions)) {
@@ -91,7 +60,7 @@ class AutoComplete extends Component {
     });
   }
 
-  handleChange(value: string): void {
+  handleChange(value) {
     this.setState({ inputValue: value });
 
     if (!this.props.triggerOnFocus && !value) {
@@ -105,7 +74,7 @@ class AutoComplete extends Component {
     this.getData(value);
   }
 
-  handleFocus(e): void {
+  handleFocus(e) {
     this.setState({ isFocus: true });
     if (this.props.onFocus) this.props.onFocus(e);
     if (this.props.triggerOnFocus) {
@@ -113,19 +82,19 @@ class AutoComplete extends Component {
     }
   }
 
-  handleKeyEnter(highlightedIndex: number): void {
+  handleKeyEnter(highlightedIndex) {
     if (this.suggestionVisible() && highlightedIndex >= 0 && highlightedIndex < this.state.suggestions.length) {
       this.select(this.state.suggestions[highlightedIndex]);
     }
   }
 
-  handleClickOutside(): void {
+  handleClickOutside() {
     if (this.state.isFocus) {
       this.setState({ isFocus: false });
     }
   }
 
-  select(item: Object): void {
+  select(item) {
     this.setState({ inputValue: item.value }, () => {
       this.setState({ suggestions: [] });
     });
@@ -135,7 +104,7 @@ class AutoComplete extends Component {
     }
   }
 
-  highlight(index: number): void {
+  highlight(index) {
     if (!this.suggestionVisible() || this.state.loading) return;
     if (index < 0) index = 0;
     if (index >= this.state.suggestions.length) {
@@ -165,14 +134,14 @@ class AutoComplete extends Component {
 
   /* Computed Methods */
 
-  suggestionVisible(): boolean {
+  suggestionVisible() {
     const suggestions = this.state.suggestions;
     const isValidData = Array.isArray(suggestions) && suggestions.length > 0;
 
     return (isValidData || this.state.loading) && this.state.isFocus;
   }
 
-  onKeyDown(e: SyntheticKeyboardEvent<any>): void {
+  onKeyDown(e) {
     const { highlightedIndex } = this.state;
 
     switch (e.keyCode) {
@@ -190,7 +159,7 @@ class AutoComplete extends Component {
     }
   }
 
-  render(): React.DOM {
+  render() {
     const { disabled, placeholder, name, size, icon, append, prepend, onIconClick, popperClass } = this.props;
     const { inputValue, suggestions } = this.state;
 

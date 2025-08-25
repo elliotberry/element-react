@@ -1,11 +1,9 @@
-// @flow
 import * as React from 'react';
 import { Component, PropTypes } from '../../libs';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import TableFooter from './TableFooter';
 
-import type {
   TableProps,
   TableState,
 } from './Types';
@@ -22,7 +20,7 @@ export default class Table extends Component<TableProps, TableState> {
     table: PropTypes.any
   };
 
-  constructor(props: TableProps) {
+  constructor(props) {
     super(props);
     this.state = {};
 
@@ -34,7 +32,7 @@ export default class Table extends Component<TableProps, TableState> {
     });
   }
 
-  get bodyWrapperHeight(): Object {
+  get bodyWrapperHeight() {
     const { layout, height, maxHeight } = this.props;
     const style = {};
 
@@ -49,20 +47,20 @@ export default class Table extends Component<TableProps, TableState> {
     return style;
   }
 
-  get bodyWidth(): number | '' {
+  get bodyWidth() | '' {
     const { layout } = this.props;
     const { bodyWidth, scrollY, gutterWidth } = layout;
     return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) : '';
   }
 
-  get fixedHeight(): Object {
+  get fixedHeight() {
     const { layout } = this.props;
     return {
       bottom: layout.scrollX ? layout.gutterWidth - 1 : 0
     };
   }
 
-  get fixedBodyHeight(): Object {
+  get fixedBodyHeight() {
     const { layout, ...props } = this.props;
     const style = {};
 
@@ -77,7 +75,7 @@ export default class Table extends Component<TableProps, TableState> {
     return style;
   }
 
-  getChildContext(): Object {
+  getChildContext() {
     return {
       table: this
     }
@@ -100,8 +98,8 @@ export default class Table extends Component<TableProps, TableState> {
     }
   }
 
-  bindRef(key: string) {
-    return (node: Object) => { this[key] = node; }
+  bindRef(key) {
+    return (node) => { this[key] = node; }
   }
 
   render() {

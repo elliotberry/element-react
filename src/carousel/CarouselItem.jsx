@@ -1,23 +1,13 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Component, PropTypes, View } from '../../libs';
 
-type State = {
-  hover: boolean,
-  translate: number,
-  scale: number,
-  active: boolean,
-  ready: boolean,
-  inStage: boolean,
-  animating: boolean
-};
 
 export default class CarouselItem extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -31,29 +21,29 @@ export default class CarouselItem extends Component {
     };
   }
 
-  componentWillMount(): void {
+  componentWillMount() {
     this.parent().addItem(this);
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.parent().removeItem(this);
   }
 
-  get isFlat(): boolean {
+  get isFlat() {
     return this.parent().props.type === 'flatcard';
   }
 
-  get CARD_SCALE(): number {
+  get CARD_SCALE() {
      return this.isFlat ? 1 : 0.83;
   }
 
-  get calculateWidth(): ?string {
+  get calculateWidth() {
     if (this.isFlat) {
       return parseInt(100 / 3) + '%';
     }
   }
 
-  processIndex(index: number, activeIndex: number, length: number): number {
+  processIndex(index, activeIndex, length) {
     if (activeIndex === 0 && index === length - 1) {
       return -1;
     } else if (activeIndex === length - 1 && index === 0) {
@@ -67,7 +57,7 @@ export default class CarouselItem extends Component {
     return index;
   }
 
-  calculateTranslate(index: number, activeIndex: number, parentWidth: number): number {
+  calculateTranslate(index, activeIndex, parentWidth) {
     const denominator = this.isFlat ? 3 : 4;
     if (this.state.inStage) {
       return parentWidth * ((2 - this.CARD_SCALE) * (index - activeIndex) + 1) / denominator;
@@ -78,8 +68,8 @@ export default class CarouselItem extends Component {
     }
   }
 
-  translateItem(index: number, activeIndex: number, oldIndex: number) {
-    const parent: any = ReactDOM.findDOMNode(this.parent());
+  translateItem(index, activeIndex, oldIndex) {
+    const parent = ReactDOM.findDOMNode(this.parent());
     const parentWidth = parent.offsetWidth;
     const length = this.parent().state.items.length;
 
@@ -113,7 +103,7 @@ export default class CarouselItem extends Component {
     }
   }
 
-  parent(): Object {
+  parent() {
     return this.context.component;
   }
 

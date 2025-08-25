@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
@@ -6,15 +5,11 @@ import { Component, PropTypes } from '../../libs';
 import Input from '../input';
 import { accAdd, accSub } from './util';
 
-type State = {
-  value: number,
-  inputActive: boolean
-};
 
 export default class InputNumber extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -23,13 +18,13 @@ export default class InputNumber extends Component {
     };
   }
 
-  componentWillReceiveProps(props: Object) {
+  componentWillReceiveProps(props) {
     if (props.value != this.props.value) {
       this.setState({ value: props.value });
     }
   }
 
-  onKeyDown(e: SyntheticKeyboardEvent<any>): void {
+  onKeyDown(e) {
     switch (e.keyCode) {
       case 38: // KeyUp
         e.preventDefault();
@@ -44,7 +39,7 @@ export default class InputNumber extends Component {
     }
   }
 
-  onBlur(): void {
+  onBlur() {
     let value = this.state.value;
 
     if (this.isValid) {
@@ -62,7 +57,7 @@ export default class InputNumber extends Component {
     this.setState({ value }, this.onChange);
   }
 
-  onInput(value: mixed): void {
+  onInput(value) {
     this.setState({ value }, () => {
       clearTimeout(this.timeout);
 
@@ -72,25 +67,25 @@ export default class InputNumber extends Component {
     });
   }
 
-  onChange(): void {
+  onChange() {
     if (this.props.onChange) {
       this.props.onChange(this.state.value);
     }
   }
 
-  get isValid(): boolean {
+  get isValid() {
     return this.state.value !== '' && !isNaN(Number(this.state.value));
   }
 
-  get minDisabled(): boolean {
+  get minDisabled() {
     return  !this.isValid || (this.state.value - Number(this.props.step) < this.props.min);
   }
 
-  get maxDisabled(): boolean {
+  get maxDisabled() {
     return  !this.isValid || (this.state.value + Number(this.props.step) > this.props.max);
   }
 
-  increase(): void {
+  increase() {
     const { step, max, disabled, min} = this.props;
     let { value, inputActive } = this.state;
 
@@ -106,7 +101,7 @@ export default class InputNumber extends Component {
     this.setState({ value, inputActive }, this.onChange);
   }
 
-  decrease(): void {
+  decrease() {
     const { step, min, disabled, max } = this.props;
     let { value, inputActive } = this.state;
 
@@ -121,7 +116,7 @@ export default class InputNumber extends Component {
     this.setState({ value, inputActive }, this.onChange);
   }
 
-  activeInput(disabled: boolean): void {
+  activeInput(disabled) {
     if (!this.props.disabled && !disabled) {
       this.setState({
         inputActive: true
@@ -129,7 +124,7 @@ export default class InputNumber extends Component {
     }
   }
 
-  inactiveInput(disabled: boolean): void {
+  inactiveInput(disabled) {
     if (!this.props.disabled && !disabled) {
       this.setState({
         inputActive: false
@@ -137,7 +132,7 @@ export default class InputNumber extends Component {
     }
   }
 
-  render(): React.DOM {
+  render() {
     const { controls, disabled, size } = this.props;
     const { value, inputActive } = this.state;
 

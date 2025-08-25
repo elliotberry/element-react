@@ -1,16 +1,12 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 
-type State = {
-  fields: Array<Component>,
-};
 
 export default class Form extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -18,29 +14,29 @@ export default class Form extends Component {
     }
   }
 
-  getChildContext(): { component: Form } {
+  getChildContext() {
     return {
       component: this
     };
   }
 
-  addField(field: Component): void {
+  addField(field) {
     this.state.fields.push(field);
   }
 
-  removeField(field: Component): void {
+  removeField(field) {
     if (field.props.prop) {
       this.state.fields.splice(this.state.fields.indexOf(field), 1);
     }
   }
 
-  resetFields(): void {
+  resetFields() {
     this.state.fields.forEach(field => {
       field.resetField();
     });
   }
 
-  validate(callback: Function): void {
+  validate(callback) {
     let valid = true;
     let count = 0;
 
@@ -61,7 +57,7 @@ export default class Form extends Component {
     });
   }
 
-  validateField(prop: string, cb: Function): void {
+  validateField(prop, cb) {
     const field = this.state.fields.filter(field => field.props.prop === prop)[0];
 
     if (!field) { throw new Error('must call validateField with valid prop string!'); }
@@ -69,7 +65,7 @@ export default class Form extends Component {
     field.validate('', cb);
   }
 
-  render(): React.DOM {
+  render() {
     return (
       <form style={this.style()} className={this.className('el-form', this.props.labelPosition && `el-form--label-${this.props.labelPosition}`, {
         'el-form--inline': this.props.inline

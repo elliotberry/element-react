@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -21,40 +20,18 @@ StyleSheet.reset(`
   }
 `)
 
-type State = {
-  options: Array<Object>,
-  isSelect: boolean,
-  inputLength: number,
-  inputWidth: number,
-  inputHovering: boolean,
-  filteredOptionsCount: number,
-  optionsCount: number,
-  hoverIndex: number,
-  bottomOverflowBeforeHidden: number,
-  cachedPlaceHolder: string,
-  currentPlaceholder: string,
-  selectedLabel: string,
-  value: any,
-  visible: boolean,
-  query: string,
-  selected: any,
-  voidRemoteQuery: boolean,
-  valueChangeBySelected: boolean,
-  selectedInit: boolean,
-  dropdownUl?: HTMLElement
-};
 
-const sizeMap: { [size: string]: number } = {
+const sizeMap = {
   'large': 42,
   'small': 30,
   'mini': 22
 };
 
 class Select extends Component {
-  state: State;
-  debouncedOnInputChange: Function;
+  state;
+  debouncedOnInputChange;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -95,7 +72,7 @@ class Select extends Component {
     this.resetInputWidth = this._resetInputWidth.bind(this)
   }
 
-  getChildContext(): Object {
+  getChildContext() {
     return {
       component: this
     };
@@ -109,7 +86,7 @@ class Select extends Component {
     addResizeListener(this.refs.root, this.resetInputWidth);
   }
 
-  componentWillReceiveProps(props: Object) {
+  componentWillReceiveProps(props) {
     if (props.placeholder != this.props.placeholder) {
       this.setState({
         currentPlaceholder: props.placeholder
@@ -125,7 +102,7 @@ class Select extends Component {
     }
   }
 
-  componentWillUpdate(props: Object, state: Object) {
+  componentWillUpdate(props, state) {
     if (state.value != this.state.value) {
       this.onValueChange(state.value);
     }
@@ -157,7 +134,7 @@ class Select extends Component {
     removeResizeListener(this.refs.root, this.resetInputWidth);
   }
 
-  debounce(): number {
+  debounce() {
     return this.props.remote ? 300 : 0;
   }
 
@@ -190,7 +167,7 @@ class Select extends Component {
     }
   }
 
-  onVisibleChange(visible: boolean) {
+  onVisibleChange(visible) {
     const { multiple, filterable } = this.props;
     let { query, dropdownUl, selected, selectedLabel, bottomOverflowBeforeHidden } = this.state;
 
@@ -213,7 +190,7 @@ class Select extends Component {
 
       if (!multiple) {
         if (dropdownUl && selected) {
-          const element: any = ReactDOM.findDOMNode(selected);
+          const element = ReactDOM.findDOMNode(selected);
           bottomOverflowBeforeHidden = element.getBoundingClientRect().bottom - this.popper.getBoundingClientRect().bottom;
         }
 
@@ -267,7 +244,7 @@ class Select extends Component {
     }
   }
 
-  onValueChange(val: mixed) {
+  onValueChange(val) {
     const { multiple } = this.props;
 
     let {
@@ -319,7 +296,7 @@ class Select extends Component {
     }
   }
 
-  onSelectedChange(val: any, bubble: boolean = true) {
+  onSelectedChange(val, bubble = true) {
     const { form } = this.context;
     const { multiple, filterable, onChange } = this.props;
     let { query, hoverIndex, inputLength, selectedInit, currentPlaceholder, cachedPlaceHolder, valueChangeBySelected } = this.state;
@@ -369,7 +346,7 @@ class Select extends Component {
     }
   }
 
-  onQueryChange(query: string) {
+  onQueryChange(query) {
     const { multiple, filterable, remote, remoteMethod, filterMethod } = this.props;
     let { voidRemoteQuery, hoverIndex, options, optionsCount } = this.state;
 
@@ -405,7 +382,7 @@ class Select extends Component {
     this.setState({ hoverIndex, voidRemoteQuery });
   }
 
-  onEnter(): void {
+  onEnter() {
     this.popperJS = new Popper(this.reference, this.popper, {
       modifiers: {
         computeStyle: {
@@ -415,15 +392,15 @@ class Select extends Component {
     });
   }
 
-  onAfterLeave(): void {
+  onAfterLeave() {
     this.popperJS.destroy();
   }
 
-  iconClass(): string {
+  iconClass() {
     return this.showCloseIcon() ? 'circle-close' : (this.props.remote && this.props.filterable ? '' : `caret-top ${this.state.visible ? 'is-reverse' : ''}`);
   }
 
-  showCloseIcon(): boolean {
+  showCloseIcon() {
     let criteria = this.props.clearable && this.state.inputHovering && !this.props.multiple && this.state.options.indexOf(this.state.selected) > -1;
 
     if (!this.refs.root) return false;
@@ -472,7 +449,7 @@ class Select extends Component {
     this.setState({ visible: false });
   }
 
-  toggleLastOptionHitState(hit?: boolean): any {
+  toggleLastOptionHitState(hit) {
     const { selected } = this.state;
 
     if (!Array.isArray(selected)) return;
@@ -490,7 +467,7 @@ class Select extends Component {
     return option.hitState;
   }
 
-  deletePrevTag(e: Object) {
+  deletePrevTag(e) {
     if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
       const { selected } = this.state;
 
@@ -500,7 +477,7 @@ class Select extends Component {
     }
   }
 
-  addOptionToValue(option: any, init?: boolean) {
+  addOptionToValue(option, init) {
     const { multiple, remote } = this.props;
     let { selected, selectedLabel, hoverIndex, value } = this.state;
 
@@ -533,7 +510,7 @@ class Select extends Component {
     this.setState({ currentPlaceholder });
   }
 
-  resetInputState(e: Object) {
+  resetInputState(e) {
     if (e.keyCode !== 8) {
       this.toggleLastOptionHitState(false);
     }
@@ -594,7 +571,7 @@ class Select extends Component {
     }
   }
 
-  navigateOptions(direction: string) {
+  navigateOptions(direction) {
     let { visible, hoverIndex, options } = this.state;
 
     if (!visible) {
@@ -645,7 +622,7 @@ class Select extends Component {
   }
 
   resetScrollTop() {
-    const element: any = ReactDOM.findDOMNode(this.state.options[this.state.hoverIndex]);
+    const element = ReactDOM.findDOMNode(this.state.options[this.state.hoverIndex]);
     const bottomOverflowDistance = element.getBoundingClientRect().bottom - this.popper.getBoundingClientRect().bottom;
     const topOverflowDistance = element.getBoundingClientRect().top - this.popper.getBoundingClientRect().top;
 
@@ -667,7 +644,7 @@ class Select extends Component {
     }
   }
 
-  deleteSelected(e: Object) {
+  deleteSelected(e) {
     e.stopPropagation();
 
     if (this.state.selectedLabel != '') {
@@ -689,7 +666,7 @@ class Select extends Component {
     }
   }
 
-  deleteTag(tag: any) {
+  deleteTag(tag) {
     const index = this.state.selected.indexOf(tag);
 
     if (index > -1 && !this.props.disabled) {
@@ -721,7 +698,7 @@ class Select extends Component {
     }
   }
 
-  onOptionCreate(option: any) {
+  onOptionCreate(option) {
     this.state.options.push(option);
     this.state.optionsCount++;
     this.state.filteredOptionsCount++;
@@ -730,7 +707,7 @@ class Select extends Component {
     this.handleValueChange();
   }
 
-  onOptionDestroy(option: any) {
+  onOptionDestroy(option) {
     this.state.optionsCount--;
     this.state.filteredOptionsCount--;
 
@@ -750,7 +727,7 @@ class Select extends Component {
     this.handleValueChange();
   }
 
-  onOptionClick(option: any) {
+  onOptionClick(option) {
     const { multiple } = this.props;
     let { visible, selected, selectedLabel } = this.state;
 

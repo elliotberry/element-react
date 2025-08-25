@@ -1,20 +1,13 @@
-/* @flow */
 
 import React from 'react';
 import { Component, PropTypes } from '../../libs';
 
-type State = {
-  activeIndex: number,
-  openedMenus: Array<number>,
-  menuItems: Component,
-  submenus: Component
-};
 
 export default class Menu extends Component {
-  state: State;
-  instanceType: string;
+  state;
+  instanceType;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.instanceType = 'Menu';
@@ -37,7 +30,7 @@ export default class Menu extends Component {
     this.openActiveItemMenus();
   }
 
-  componentWillReceiveProps(props: Object) {
+  componentWillReceiveProps(props) {
     if (props.defaultActive != this.props.defaultActive || props.defaultActive != this.state.activeIndex) {
       this.defaultActiveChanged(props.defaultActive);
     }
@@ -47,7 +40,7 @@ export default class Menu extends Component {
     }
   }
 
-  openMenu(index: number, indexPath: Array<number>): void {
+  openMenu(index, indexPath) {
     let { openedMenus } = this.state;
 
     if (openedMenus.indexOf(index) !== -1) return;
@@ -63,7 +56,7 @@ export default class Menu extends Component {
     this.setState({ openedMenus });
   }
 
-  closeMenu(index: number): void {
+  closeMenu(index) {
     let { openedMenus } = this.state;
 
     openedMenus.splice(openedMenus.indexOf(index), 1);
@@ -71,7 +64,7 @@ export default class Menu extends Component {
     this.setState({ openedMenus });
   }
 
-  handleSubmenuClick(index: number, indexPath: Array<number>): void {
+  handleSubmenuClick(index, indexPath) {
     let isOpened = this.state.openedMenus.indexOf(index) !== -1;
 
     if (isOpened) {
@@ -89,7 +82,7 @@ export default class Menu extends Component {
     }
   }
 
-  handleSelect(index: number, indexPath: Array<number>, instance: Component): void {
+  handleSelect(index, indexPath, instance) {
     let { activeIndex, openedMenus, submenus } = this.state;
 
     activeIndex = index;
@@ -113,7 +106,7 @@ export default class Menu extends Component {
     });
   }
 
-  openActiveItemMenus(): void {
+  openActiveItemMenus() {
     let { activeIndex, menuItems, submenus } = this.state;
 
     if (!menuItems[activeIndex]) return;
@@ -128,7 +121,7 @@ export default class Menu extends Component {
     }
   }
 
-  defaultActiveChanged(value: number): void {
+  defaultActiveChanged(value) {
     const { menuItems } = this.state;
 
     this.setState({ activeIndex: value }, () => {
@@ -141,13 +134,13 @@ export default class Menu extends Component {
     });
   }
 
-  defaultOpenedsChanged(value: mixed): void {
+  defaultOpenedsChanged(value) {
     this.setState({
       openedMenus: value
     });
   }
 
-  render(): React.DOM {
+  render() {
     return (
       <ul
         style={this.style()}

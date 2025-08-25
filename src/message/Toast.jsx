@@ -1,17 +1,11 @@
-/* @flow */
-
 import React from 'react';
 import { Component, PropTypes, Transition, View } from '../../libs';
 import icons from './assets';
 
-type State = {
-  visible: boolean
-};
-
 export default class Toast extends Component {
-  state: State;
+ 
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {

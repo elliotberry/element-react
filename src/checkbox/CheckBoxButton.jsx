@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import CheckBox from './CheckBox';
@@ -6,7 +5,7 @@ import CheckBox from './CheckBox';
 export default class CheckboxButton extends CheckBox {
   static elementType = 'CheckboxButton';
 
-  render(): React.DOM {
+  render() {
     const group = this.context.ElCheckboxGroup;
 
     return (

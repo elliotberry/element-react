@@ -11,7 +11,7 @@ export interface ButtonProps {
   plain?: boolean;
   className?: string;
   style?: React.CSSProperties;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => undefined;
   children?: React.ReactNode;
 }
 
@@ -33,7 +33,7 @@ export interface AlertProps {
   closable?: boolean;
   closeText?: string;
   showIcon?: boolean;
-  onClose?: () => void;
+  onClose?: () => undefined;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -50,8 +50,8 @@ export interface InputProps {
   autoComplete?: string;
   validating?: boolean;
   rows?: number;
-  onMouseEnter?: (e: React.MouseEvent) => void;
-  onMouseLeave?: (e: React.MouseEvent) => void;
+  onMouseEnter?: (e: React.MouseEvent) => undefined;
+  onMouseLeave?: (e: React.MouseEvent) => undefined;
   trim?: boolean;
   disabled?: boolean;
   name?: string;
@@ -64,11 +64,11 @@ export interface InputProps {
   value?: any;
   autosize?: boolean | { minRows?: number; maxRows?: number };
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
-  onFocus?: (e: React.FocusEvent) => void;
-  onBlur?: (e: React.FocusEvent) => void;
-  onChange?: (value: string) => void;
-  onIconClick?: (e: React.MouseEvent) => void;
-  inputSelect?: () => void;
+  onFocus?: (e: React.FocusEvent) => undefined;
+  onBlur?: (e: React.FocusEvent) => undefined;
+  onChange?: (value: string) => undefined;
+  onIconClick?: (e: React.MouseEvent) => undefined;
+  inputSelect?: () => undefined;
   form?: string;
   className?: string;
   style?: React.CSSProperties;

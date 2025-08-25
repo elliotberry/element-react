@@ -1,11 +1,10 @@
-/* @flow */
 
 import React from 'react';
 import { debounce } from 'throttle-debounce';
 
 import { PropTypes, Component, CollapseTransition } from '../../libs';
 import { watchPropertyChange, IDGenerator } from '../../libs/utils';
-import Checkbox from '../checkbox';
+
 
 
 function NodeContent({context, renderContent}) {
@@ -23,15 +22,11 @@ NodeContent.propTypes = {
   context: PropTypes.object.isRequired
 };
 
-type State = {
-  childNodeRendered: boolean,
-  isShowCheckbox: boolean
-};
 
 export default class Node extends Component {
-  state: State;
 
-  constructor(props: Object) {
+
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -45,7 +40,7 @@ export default class Node extends Component {
     this.idGen = new IDGenerator();
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     const nodeModel = this.props.nodeModel;
     const childrenKey = this.props.options.children || 'children';
 
@@ -81,7 +76,7 @@ export default class Node extends Component {
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.loadHandler();
     // clear watchs
     for (let w in this.watchers) {
@@ -92,7 +87,7 @@ export default class Node extends Component {
     this.isDeconstructed = true;
   }
 
-  enhanceLoad(nodeModel: Object): Function {
+  enhanceLoad(nodeModel) {
     const load = nodeModel.load;
     const enhanced = (...args) => {
       load.apply(null, args);
@@ -104,7 +99,7 @@ export default class Node extends Component {
     };
   }
 
-  handleSelectChange(checked: boolean, indeterminate: boolean): void {
+  handleSelectChange(checked, indeterminate) {
     const { onCheckChange, nodeModel } = this.props;
 
     // !NOTE: 原码是 && 的关系，感觉有bug
@@ -119,7 +114,7 @@ export default class Node extends Component {
     this.oldIndeterminate = indeterminate;
   }
 
-  getNodeKey(node: any, otherwise: number) {
+  getNodeKey(node, otherwise) {
     const nodeKey = this.props.nodeKey;
     if (nodeKey && node) {
       return node.data[nodeKey];
@@ -128,7 +123,7 @@ export default class Node extends Component {
   }
 
 
-  handleClick(evt: ?SyntheticEvent<any>): void {
+  handleClick(evt) {
     if (evt) evt.stopPropagation();
     const { nodeModel, treeNode } = this.props;
 
@@ -138,7 +133,7 @@ export default class Node extends Component {
     }
   }
 
-  handleExpandIconClick(evt: ?SyntheticEvent<any>): void {
+  handleExpandIconClick(evt) {
     if (evt) evt.stopPropagation();
 
     const { nodeModel, parent } = this.props;
@@ -160,7 +155,7 @@ export default class Node extends Component {
     }
   }
 
-  closeSiblings(exclude: any){
+  closeSiblings(exclude){
     const {treeNode, nodeModel} = this.props;
     if (!treeNode.props.accordion) return;
     if (nodeModel.isLeaf || !nodeModel.childNodes || !nodeModel.childNodes.length) return;
@@ -173,18 +168,18 @@ export default class Node extends Component {
     this.setState({})
   }
 
-  handleUserClick(): void {
+  handleUserClick() {
     let {nodeModel, checkStrictly} = this.props.treeNode;
     if (nodeModel.indeterminate) {
       nodeModel.setChecked(nodeModel.checked, !checkStrictly);
     }
   }
 
-  handleCheckChange(checked: boolean): void {
+  handleCheckChange(checked) {
     this.props.nodeModel.setChecked(checked, true);
   }
 
-  render(): React.DOM {
+  render() {
     const { childNodeRendered } = this.state;
     const { treeNode, nodeModel, renderContent, isShowCheckbox } = this.props;
 

@@ -1,5 +1,3 @@
-/* @flow */
-
 import * as React from 'react';
 import { Component, PropTypes, Animate, View } from '../../libs';
 
@@ -12,14 +10,10 @@ const typeMap = {
   error: 'circle-cross'
 };
 
-type State = {
-  visible: boolean
-};
-
 export default class Notification extends Component {
-  state: State;
+  
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
     this.state = { visible: true };
   }
@@ -53,7 +47,7 @@ export default class Notification extends Component {
     clearTimeout(this.timeout);
   }
 
-  typeClass(): string {
+  typeClass() {
     const { type } = this.props
     return type && typeMap[type] ? `el-icon-${ typeMap[type] }` : '';
   }

@@ -1,14 +1,13 @@
-/* @flow */
 import React from 'react';
 import { Component, PropTypes, Transition, View } from '../../libs';
 import Progress from '../progress/Progress';
 
 export default class UploadList extends Component {
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
   }
 
-  uploadList(): ?React.DOM {
+  uploadList() {
     const { onPreview, onRemove } = this.context;
     const { listType, fileList } = this.props;
     const isFinished = status => status === 'success';
@@ -91,7 +90,7 @@ export default class UploadList extends Component {
     )
   }
 
-  render(): React.DOM {
+  render() {
     return (
       <Transition name="list">{ this.uploadList() }</Transition>
     )

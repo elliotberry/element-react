@@ -1,4 +1,3 @@
-/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -6,15 +5,12 @@ import { PropTypes, View, Transition, CollapseTransition } from '../../libs';
 
 import MixinComponent from './MixinComponent';
 
-type State = {
-  active: boolean
-};
 
 export default class SubMenu extends MixinComponent {
-  state: State;
-  instanceType: string;
+  state;
+  instanceType;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.instanceType = 'SubMenu';
@@ -35,17 +31,17 @@ export default class SubMenu extends MixinComponent {
     this.initEvents();
   }
 
-  onItemSelect(index: number, indexPath: Array<number>): void {
+  onItemSelect(index, indexPath) {
     this.setState({
       active: indexPath.indexOf(this.props.index) !== -1
     });
   }
 
-  handleClick(): void {
+  handleClick() {
     this.rootMenu().handleSubmenuClick(this.props.index, this.indexPath());
   }
 
-  handleMouseenter(): void {
+  handleMouseenter() {
     clearTimeout(this.timeout);
 
     this.timeout = setTimeout(() => {
@@ -53,7 +49,7 @@ export default class SubMenu extends MixinComponent {
     }, 300);
   }
 
-  handleMouseleave(): void {
+  handleMouseleave() {
     clearTimeout(this.timeout);
 
     this.timeout = setTimeout(() => {
@@ -61,9 +57,9 @@ export default class SubMenu extends MixinComponent {
     }, 300);
   }
 
-  initEvents(): void {
+  initEvents() {
     if (this.rootMenu().props.mode === 'horizontal' && this.rootMenu().props.menuTrigger === 'hover') {
-      const triggerElm: any = ReactDOM.findDOMNode(this);
+      const triggerElm = ReactDOM.findDOMNode(this);
 
       triggerElm.addEventListener('mouseenter', this.handleMouseenter.bind(this));
       triggerElm.addEventListener('mouseleave', this.handleMouseleave.bind(this));
@@ -74,11 +70,11 @@ export default class SubMenu extends MixinComponent {
     }
   }
 
-  opened(): boolean {
+  opened() {
     return this.rootMenu().state.openedMenus.indexOf(this.props.index) !== -1;
   }
 
-  render(): React.DOM {
+  render() {
     return (
       <li style={this.style()} className={this.className('el-submenu', {
         'is-active': this.state.active,

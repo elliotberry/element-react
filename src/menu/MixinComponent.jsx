@@ -1,13 +1,12 @@
-/* @flow */
 
 import { Component, PropTypes } from '../../libs';
 
 export default class MixinComponent extends Component {
-  parent(): Component {
+  parent() {
     return this.context.component;
   }
 
-  indexPath(): Array<number> {
+  indexPath() {
     let path = [this.props.index];
     let parent = this.parent();
 
@@ -22,7 +21,7 @@ export default class MixinComponent extends Component {
     return path;
   }
 
-  rootMenu(): Component {
+  rootMenu() {
     let parent = this.parent();
 
     while (parent.instanceType !== 'Menu') {

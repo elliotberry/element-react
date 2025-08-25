@@ -1,18 +1,12 @@
-/* @flow */
 
 import React from 'react'
 import {Component, PropTypes, View, Transition} from '../../libs'
 
-type State = {
-  value: boolean | number | string,
-  coreWidth: number,
-  buttonStyle: Object
-};
 
 export default class Switch extends Component {
-  state: State;
+  state;
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -32,7 +26,7 @@ export default class Switch extends Component {
     this.updateSwitch();
   }
 
-  componentWillReceiveProps(props: Object) {
+  componentWillReceiveProps(props) {
     this.setState({ value: props.value }, () => {
       this.updateSwitch();
     });
@@ -67,19 +61,19 @@ export default class Switch extends Component {
     }
   }
 
-  handleFocus(e: Object) {
+  handleFocus(e) {
     if (this.props.allowFocus) {
       this.props.onFocus(e);
     }
   }
 
-  handleBlur(e: Object) {
+  handleBlur(e) {
     if (this.props.allowFocus) {
       this.props.onBlur(e);
     }
   }
 
-  handleChange(e: Object) {
+  handleChange(e) {
     this.setState({
       value: e.target.checked ? this.props.onValue : this.props.offValue
     }, () => {

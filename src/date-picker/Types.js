@@ -28,7 +28,7 @@ export type MonthTableProps = {
 }
 
 type Range<T> = [T, Date]
-type TimeSpinnerSelectableRange = Range<any>[]
+type TimeSpinnerSelectableRange = Range[]
 type TimeSpinnerOnSelectRangeChange = (range: Range<number>)=>void
 export type TimeTypes = 'hours' | 'minutes' | 'seconds'
 export type TimeSpinnerProps = {
@@ -45,7 +45,7 @@ export type TimeSpinnerProps = {
 export type YearTableProps = {
   value: Date,
   date: Date,
-  onPick: (number: number)=> void,
+  onPick: (number: number)=> undefined,
   disabledDate: ?DisableDateFunc
 }
 
