@@ -92,7 +92,7 @@ export default class BasePicker extends Component {
 
   // ---: start, abstract methods
   // (state, props)=>ReactElement
-  pickerPanel(state, props: $Subtype<BasePickerProps>) {
+  pickerPanel(state, props) {
     throw new Errors.MethodImplementationRequiredError(props)
   }
 

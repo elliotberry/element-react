@@ -55,7 +55,7 @@ export default class TimePanel extends PopperBase {
 
   // type,  one of [hours, minutes, seconds]
   // date: {type}
-  handleChange(date: { hours?, minutes?, seconds? }) {
+  handleChange(date) {
     const { currentDate } = this.state
 
     if (date.hours !== undefined) {

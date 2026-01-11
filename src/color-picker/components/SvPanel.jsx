@@ -4,7 +4,6 @@ import { Component, PropTypes } from '../../../libs';
 import draggable from '../draggable';
 
 export default class SvPanel extends Component {
-  state: SvPanelState;
 
   constructor(props) {
     super(props);

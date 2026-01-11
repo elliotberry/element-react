@@ -96,6 +96,13 @@ class Jumper extends Component {
 }
 
 
+class Pagination extends Component {
+  render() {
+    // Component implementation needed
+    return <div className="el-pagination">Pagination</div>;
+  }
+}
+
 Pagination.defaultProps = {
   small: false,
   pageSize: 10,
@@ -103,3 +110,16 @@ Pagination.defaultProps = {
   layout: 'prev, pager, next, jumper, ->, total',
   pageSizes: [10, 20, 30, 40, 50, 100]
 };
+
+Pagination.propTypes = {
+  small: PropTypes.bool,
+  pageSize: PropTypes.number,
+  currentPage: PropTypes.number,
+  total: PropTypes.number,
+  layout: PropTypes.string,
+  pageSizes: PropTypes.array,
+  onCurrentChange: PropTypes.func,
+  onSizeChange: PropTypes.func
+};
+
+export default Pagination;

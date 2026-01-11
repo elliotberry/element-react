@@ -5,6 +5,12 @@ import { Component, PropTypes } from '../../libs';
 import InputNumber from '../input-number';
 import SliderButton from './Button';
 
+export default class Slider extends Component {
+  render() {
+    // Component implementation needed
+    return <div className="el-slider">Slider</div>;
+  }
+}
 
 Slider.propTypes = {
   min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

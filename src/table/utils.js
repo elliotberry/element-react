@@ -1,9 +1,8 @@
-// @flow
 import * as React from 'react';
 
-const _document = (document: any);
+const _document = document;
 
-let scrollBarWidth: ?number;
+let scrollBarWidth;
 
 export const cleanScrollBar = () => {
   document.querySelectorAll('.el-table__body-wrapper').forEach(el => {
@@ -14,7 +13,7 @@ export const cleanScrollBar = () => {
   });
 };
 
-export function getScrollBarWidth(): ?number {
+export function getScrollBarWidth() {
   if (scrollBarWidth !== undefined) return scrollBarWidth;
   const dom = _document.createElement('div');
   const body = _document.body || dom;
@@ -35,12 +34,12 @@ export function getScrollBarWidth(): ?number {
   return totalWidth - widthWithoutScroll;
 }
 
-export function getValueByPath(data: Object, path: ?string): any {
+export function getValueByPath(data, path) {
   if (typeof path !== 'string') return null;
-  return path.split('.').reduce((pre: Object, cur) => (pre || {})[cur], data);
+  return path.split('.').reduce((pre, cur) => (pre || {})[cur], data);
 }
 
-export function getRowIdentity(row: Object, rowKey: any): any {
+export function getRowIdentity(row, rowKey) {
   if (typeof rowKey === 'string') {
     return getValueByPath(row, rowKey);
   } else if (typeof rowKey === 'function') {
@@ -48,7 +47,7 @@ export function getRowIdentity(row: Object, rowKey: any): any {
   }
 }
 
-export function getLeafColumns(columns: Array<_Column>): Array<_Column> {
+export function getLeafColumns(columns) {
   const result = [];
   columns.forEach((column) => {
     if (column.subColumns) {
@@ -60,7 +59,7 @@ export function getLeafColumns(columns: Array<_Column>): Array<_Column> {
   return result;
 }
 
-function convertChildrenToColumns(children: Array<Object> | Object) {
+function convertChildrenToColumns(children) {
   return React.Children.map(children, (child) => {
     if (child.type.typeName !== 'TableColumn') {
       console.warn(`Table component's children must be TableColumn, but received ${child.type}`);
@@ -76,14 +75,14 @@ function convertChildrenToColumns(children: Array<Object> | Object) {
   })
 }
 
-export function getColumns(props: Object) {
+export function getColumns(props) {
   return props.children ? convertChildrenToColumns(props.children) : props.columns || [];
 }
 
-export function convertToRows(columns: Array<_Column>): Array<Array<_Column>> {
+export function convertToRows(columns) {
   let maxLevel = 1;
 
-  function traverse(column: _Column, parent: ?_Column) {
+  function traverse(column, parent) {
     if (parent) {
       column.level = parent.level + 1;
       if (maxLevel < column.level) {
@@ -132,9 +131,9 @@ export function convertToRows(columns: Array<_Column>): Array<Array<_Column>> {
   return rows;
 }
 
-const checkType = (data: any): string => Object.prototype.toString.call(data).toLowerCase().slice(8, -1);
+const checkType = (data) => Object.prototype.toString.call(data).toLowerCase().slice(8, -1);
 
-const deepCompare = (obj1: any, obj2: any): boolean => {
+const deepCompare = (obj1, obj2) => {
     const obj1Type = checkType(obj1);
     const obj2Type = checkType(obj2);
     if (obj1Type !== obj2Type ) return false;

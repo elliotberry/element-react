@@ -20,7 +20,7 @@ export default class Menu extends Component {
     }
   }
 
-  getChildContext(): { component: Menu } {
+  getChildContext() {
     return {
       component: this
     };

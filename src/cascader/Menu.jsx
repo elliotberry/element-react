@@ -71,7 +71,7 @@ export default class CascaderMenu extends Component {
 
   /* Computed Methods */
 
-  activeOptions(): [] {
+  activeOptions() {
     const activeValue = this.state.activeValue;
     const configurableProps = ['label', 'value', 'children', 'disabled'];
     const formatOptions = (options) => {
@@ -86,7 +86,7 @@ export default class CascaderMenu extends Component {
         }
       });
     };
-    const loadActiveOptions = (options, activeOptions = []): [] => {
+    const loadActiveOptions = (options, activeOptions = []) => {
       const level = activeOptions.length;
       activeOptions[level] = options;
       let active = activeValue[level];

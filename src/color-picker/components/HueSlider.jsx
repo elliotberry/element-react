@@ -4,7 +4,6 @@ import { Component, PropTypes } from '../../../libs';
 import draggable from '../draggable';
 
 export default class HueSlider extends Component {
-  state: HueSliderState;
 
   constructor(props) {
     super(props);

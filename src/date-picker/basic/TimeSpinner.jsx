@@ -127,7 +127,7 @@ export default class TimeSpinner extends Component {
     this.props.onChange(changed);
   }
 
-  _ajustScrollTop({ hours, minutes, seconds }: { hours, minutes, seconds }) {
+  _ajustScrollTop({ hours, minutes, seconds }) {
     if (hours != null) {
       this.refs.hours.refs.wrap.scrollTop = calcScrollTop(hours)
     }

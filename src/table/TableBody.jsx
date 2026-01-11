@@ -7,7 +7,7 @@ import Checkbox from '../checkbox';
 import Tag from '../tag';
 
 
-export default class TableBody extends Component<TableBodyProps> {
+export default class TableBody extends Component {
   static contextTypes = {
     tableStore: PropTypes.any,
     layout: PropTypes.any,
@@ -28,25 +28,25 @@ export default class TableBody extends Component<TableBodyProps> {
     this.context.tableStore.setHoverRow(null);
   }
 
-  handleCellMouseEnter(row, column, event<HTMLTableCellElement>) {
+  handleCellMouseEnter(row, column, event) {
     this.dispatchEvent('onCellMouseEnter', row, column, event.currentTarget, event)
   }
 
-  handleCellMouseLeave(row, column, event<HTMLTableCellElement>) {
+  handleCellMouseLeave(row, column, event) {
     this.dispatchEvent('onCellMouseLeave', row, column, event.currentTarget, event)
   }
 
-  handleCellClick(row, column, event<HTMLTableCellElement>) {
+  handleCellClick(row, column, event) {
     this.dispatchEvent('onCellClick', row, column, event.currentTarget, event)
     this.dispatchEvent('onRowClick', row, event, column);
   }
 
-  handleCellDbClick(row, column, event<HTMLTableCellElement>) {
+  handleCellDbClick(row, column, event) {
     this.dispatchEvent('onCellDbClick', row, column, event.currentTarget, event)
     this.dispatchEvent('onRowDbClick', row, column)
   }
 
-  handleRowContextMenu(row, event<HTMLTableRowElement>) {
+  handleRowContextMenu(row, event) {
     this.dispatchEvent('onRowContextMenu', row, event)
   }
 
@@ -75,7 +75,7 @@ export default class TableBody extends Component<TableBodyProps> {
     return rowStyle;
   }
 
-  getKeyOfRow(row, index) | string {
+  getKeyOfRow(row, index) {
     const { rowKey } = this.props;
     if (rowKey) {
       return getRowIdentity(row, rowKey);
@@ -101,7 +101,7 @@ export default class TableBody extends Component<TableBodyProps> {
     return this.props.tableStoreState.rightFixedColumns.length;
   }
 
-  handleExpandClick(row, rowKey | number) {
+  handleExpandClick(row, rowKey) {
     this.context.tableStore.toggleRowExpanded(row, rowKey);
   }
 
@@ -109,7 +109,7 @@ export default class TableBody extends Component<TableBodyProps> {
     this.context.tableStore.setCurrentRow(row);
   }
 
-  renderCell(row, column, index, rowKey | number) {
+  renderCell(row, column, index, rowKey) {
     const { type, selectable } = column;
     if (type === 'expand') {
       return (

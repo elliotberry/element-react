@@ -1,145 +1,185 @@
-// @flow
-export type strOrNum = string | number;
+// Type definitions for table components
+// These are now just JSDoc-style comments for documentation
 
-export type Column = {
-  type?: string,
-  columnKey?: string,
-  label?: string,
-  prop?: string,
-  property?: string,
-  width?: number,
-  minWidth?: number,
-  fixed?: true | 'left' | 'right',
-  render?: (row: Object, column: _Column, index: number) => Object,
-  renderHeader?: () => undefined,
-  sortable: boolean | 'custom',
-  sortMethod?: (a: Object, b: Object) => boolean,
-  resizable: boolean,
-  align: 'left' | 'center' | 'right',
-  headerAlign: 'left' | 'center' | 'right',
-  className?: string,
-  labelClassName?: string,
-  selectable?: (row: Object, index: number) => boolean,
-  reserveSelection: boolean,
-  filters?: Array<{ text: any, value: any }>,
-  filterPlacement?: string,
-  filterMultiple: boolean,
-  filterMethod?: (value: any, row: Object) => boolean,
-  filteredValue?: Array<strOrNum> | strOrNum,
-  subColumns?: Array<Column>
-};
+/**
+ * @typedef {string | number} strOrNum
+ */
 
-export type _Column = {
-  id: string,
-  type?: string,
-  columnKey: string,
-  label?: string,
-  prop?: string,
-  property?: string,
-  width?: number,
-  minWidth?: number,
-  fixed?: true | 'left' | 'right',
-  sortable: boolean | 'custom',
-  sortMethod?: (a: Object, b: Object) => boolean,
-  resizable: boolean,
-  showOverflowTooltip: boolean,
-  align: 'left' | 'center' | 'right',
-  headerAlign: 'left' | 'center' | 'right',
-  className?: string,
-  labelClassName?: string,
-  selectable?: (row: Object, index: number) => boolean,
-  reserveSelection: boolean,
-  filters?: Array<{ text: any, value: any }>,
-  filterPlacement?: string,
-  filterMultiple: boolean,
-  filterMethod?: (value: any, row: Object) => boolean,
-  filteredValue?: Array<strOrNum> | strOrNum,
-  subColumns?: Array<Column>,
-  realWidth: number,
-  render: (row: Object, column: _Column, index: number) => Object,
-  renderHeader: (column: _Column) => Object,
-  filterable: boolean,
-  filterOpened: boolean,
-  rowSpan: number,
-  colSpan: number,
-  level: number,
-  subColumns?: Array<_Column>
-};
+/**
+ * @typedef {Object} Column
+ * @property {string} [type]
+ * @property {string} [columnKey]
+ * @property {string} [label]
+ * @property {string} [prop]
+ * @property {string} [property]
+ * @property {number} [width]
+ * @property {number} [minWidth]
+ * @property {true|'left'|'right'} [fixed]
+ * @property {Function} [render]
+ * @property {Function} [renderHeader]
+ * @property {boolean|'custom'} sortable
+ * @property {Function} [sortMethod]
+ * @property {boolean} resizable
+ * @property {'left'|'center'|'right'} align
+ * @property {'left'|'center'|'right'} headerAlign
+ * @property {string} [className]
+ * @property {string} [labelClassName]
+ * @property {Function} [selectable]
+ * @property {boolean} reserveSelection
+ * @property {Array} [filters]
+ * @property {string} [filterPlacement]
+ * @property {boolean} filterMultiple
+ * @property {Function} [filterMethod]
+ * @property {Array|string|number} [filteredValue]
+ * @property {Array<Column>} [subColumns]
+ */
 
-export type TableStoreProps = {
-  style?: Object,
-  className?: string,
-  data?: Array<Object>,
-  columns?: Array<Column>,
-  height?: strOrNum,
-  maxHeight?: strOrNum,
-  stripe: boolean,
-  border: boolean,
-  fit: boolean,
-  showHeader: boolean,
-  highlightCurrentRow: boolean,
-  currentRowKey?: strOrNum | Array<strOrNum>,
-  rowClassName?: ((row: Object, index: number) => string) | string,
-  rowStyle: ((row: Object, index: number) => Object) | Object,
-  rowKey: ((row: Object) => strOrNum) | string,
-  emptyText: string,
-  defaultExpandAll: boolean,
-  expandRowKeys?: Array<number | string>,
-  defaultSort?: {
-    prop: string,
-    order?: 'ascending' | 'descending',
-  },
-  tooltipEffect?: 'dark' | 'light',
-  showSummary: boolean,
-  sumText: string,
-  summaryMethod?: ({ column: Array<Column>, data: Array<Object> }) => any,
-};
+/**
+ * @typedef {Object} _Column
+ * @property {string} id
+ * @property {string} [type]
+ * @property {string} columnKey
+ * @property {string} [label]
+ * @property {string} [prop]
+ * @property {string} [property]
+ * @property {number} [width]
+ * @property {number} [minWidth]
+ * @property {true|'left'|'right'} [fixed]
+ * @property {boolean|'custom'} sortable
+ * @property {Function} [sortMethod]
+ * @property {boolean} resizable
+ * @property {boolean} showOverflowTooltip
+ * @property {'left'|'center'|'right'} align
+ * @property {'left'|'center'|'right'} headerAlign
+ * @property {string} [className]
+ * @property {string} [labelClassName]
+ * @property {Function} [selectable]
+ * @property {boolean} reserveSelection
+ * @property {Array} [filters]
+ * @property {string} [filterPlacement]
+ * @property {boolean} filterMultiple
+ * @property {Function} [filterMethod]
+ * @property {Array|string|number} [filteredValue]
+ * @property {Array<Column>} [subColumns]
+ * @property {number} realWidth
+ * @property {Function} render
+ * @property {Function} renderHeader
+ * @property {boolean} filterable
+ * @property {boolean} filterOpened
+ * @property {number} rowSpan
+ * @property {number} colSpan
+ * @property {number} level
+ * @property {Array<_Column>} [subColumns]
+ */
 
-export type TableStoreState = {
-  sortedData: Array<Object>,
-  data: Array<Object>,
-  fixedColumns: Array<_Column>,
-  rightFixedColumns: Array<_Column>,
-  columnRows: Array<Array<_Column>>,
-  columns: Array<_Column>,
-  isComplex: boolean,
-  defaultExpandAll: boolean,
-};
+/**
+ * @typedef {Object} TableStoreProps
+ * @property {Object} [style]
+ * @property {string} [className]
+ * @property {Array<Object>} [data]
+ * @property {Array<Column>} [columns]
+ * @property {string|number} [height]
+ * @property {string|number} [maxHeight]
+ * @property {boolean} stripe
+ * @property {boolean} border
+ * @property {boolean} fit
+ * @property {boolean} showHeader
+ * @property {boolean} highlightCurrentRow
+ * @property {string|number|Array} [currentRowKey]
+ * @property {Function|string} [rowClassName]
+ * @property {Function|Object} rowStyle
+ * @property {Function|string} rowKey
+ * @property {string} emptyText
+ * @property {boolean} defaultExpandAll
+ * @property {Array<number|string>} [expandRowKeys]
+ * @property {Object} [defaultSort]
+ * @property {'dark'|'light'} [tooltipEffect]
+ * @property {boolean} showSummary
+ * @property {string} sumText
+ * @property {Function} [summaryMethod]
+ */
 
-export type TableLayoutProps = TableStoreProps & { tableStoreState: TableStoreState, renderExpanded?: (row: Object, rowIndex: number) => Object };
+/**
+ * @typedef {Object} TableStoreState
+ * @property {Array<Object>} sortedData
+ * @property {Array<Object>} data
+ * @property {Array<_Column>} fixedColumns
+ * @property {Array<_Column>} rightFixedColumns
+ * @property {Array<Array<_Column>>} columnRows
+ * @property {Array<_Column>} columns
+ * @property {boolean} isComplex
+ * @property {boolean} defaultExpandAll
+ */
 
-export type TableLayoutState = {
-  height?: strOrNum,
-  gutterWidth: number,
-  tableHeight?: number,
-  headerHeight?: number,
-  bodyHeight?: number,
-  footerHeight?: number,
-  fixedBodyHeight?: number,
-  viewportHeight?: number,
-  scrollX?: boolean,
-  scrollY?: boolean,
-};
+/**
+ * @typedef {Object} TableLayoutProps
+ * @property {TableStoreState} tableStoreState
+ * @property {Function} [renderExpanded]
+ */
 
-export type TableProps = TableLayoutProps & { layout: TableLayoutState };
+/**
+ * @typedef {Object} TableLayoutState
+ * @property {string|number} [height]
+ * @property {number} gutterWidth
+ * @property {number} [tableHeight]
+ * @property {number} [headerHeight]
+ * @property {number} [bodyHeight]
+ * @property {number} [footerHeight]
+ * @property {number} [fixedBodyHeight]
+ * @property {number} [viewportHeight]
+ * @property {boolean} [scrollX]
+ * @property {boolean} [scrollY]
+ */
 
-export type TableState = {};
+/**
+ * @typedef {Object} TableProps
+ * @property {TableLayoutState} layout
+ */
 
-export type TableHeaderProps = TableProps & { fixed: true | 'left' | 'right' };
-export type TableBodyProps = TableHeaderProps;
-export type TableFooterProps = TableHeaderProps;
+/**
+ * @typedef {Object} TableState
+ */
 
+/**
+ * @typedef {Object} TableHeaderProps
+ * @property {true|'left'|'right'} fixed
+ */
 
-export type FilterProps = {
-  visible: boolean,
-  multiple: boolean,
-  filters: Array<Object>,
-  filteredValue: Array,
-  filerPlacement?: string,
-  onFilterChange: (value: any) => undefined,
-  toggleFilter: () => undefined
-}
+/**
+ * @typedef {Object} TableBodyProps
+ */
 
-export type FilterState = {
-  filteredValue: Array,
-}
+/**
+ * @typedef {Object} TableFooterProps
+ */
+
+/**
+ * @typedef {Object} FilterProps
+ * @property {boolean} visible
+ * @property {boolean} multiple
+ * @property {Array<Object>} filters
+ * @property {Array} filteredValue
+ * @property {string} [filerPlacement]
+ * @property {Function} onFilterChange
+ * @property {Function} toggleFilter
+ */
+
+/**
+ * @typedef {Object} FilterState
+ * @property {Array} filteredValue
+ */
+
+// Export empty objects to maintain compatibility
+export const Column = {};
+export const _Column = {};
+export const TableStoreProps = {};
+export const TableStoreState = {};
+export const TableLayoutProps = {};
+export const TableLayoutState = {};
+export const TableProps = {};
+export const TableState = {};
+export const TableHeaderProps = {};
+export const TableBodyProps = {};
+export const TableFooterProps = {};
+export const FilterProps = {};
+export const FilterState = {};

@@ -22,13 +22,13 @@ export default class CheckboxGroup extends Component {
     }
   }
 
-  getChildContext(): { ElCheckboxGroup: CheckboxGroup } {
+  getChildContext() {
     return {
       ElCheckboxGroup: this
     };
   }
 
-  onChange(value | number, checked) {
+  onChange(value, checked) {
     const index = this.state.options.indexOf(value);
 
     if (checked) {

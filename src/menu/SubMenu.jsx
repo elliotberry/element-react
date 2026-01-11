@@ -20,7 +20,7 @@ export default class SubMenu extends MixinComponent {
     };
   }
 
-  getChildContext(): { component: SubMenu } {
+  getChildContext() {
     return {
       component: this
     };

@@ -5,7 +5,7 @@ import Checkbox from '../checkbox';
 import Tag from '../tag';
 
 
-export default class TableFooter extends Component<TableFooterProps> {
+export default class TableFooter extends Component {
   isCellHidden(index, columns) {
     const { fixed } = this.props;
     if (fixed === true || fixed === 'left') {

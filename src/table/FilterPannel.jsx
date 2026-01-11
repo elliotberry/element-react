@@ -15,7 +15,7 @@ function getPopupContainer() {
   return container;
 }
 
-export default class FilterPannel extends Component<FilterProps, FilterState> {
+export default class FilterPannel extends Component {
   constructor(props) {
     super(props);
 

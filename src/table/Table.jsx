@@ -3,14 +3,14 @@ import { Component, PropTypes } from '../../libs';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import TableFooter from './TableFooter';
-
+import {
   TableProps,
   TableState,
 } from './Types';
 
 // let tableIdSeed = 1;
 
-export default class Table extends Component<TableProps, TableState> {
+export default class Table extends Component {
   static contextTypes = {
     tableStore: PropTypes.any,
     layout: PropTypes.any,
@@ -47,7 +47,7 @@ export default class Table extends Component<TableProps, TableState> {
     return style;
   }
 
-  get bodyWidth() | '' {
+  get bodyWidth() {
     const { layout } = this.props;
     const { bodyWidth, scrollY, gutterWidth } = layout;
     return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) : '';

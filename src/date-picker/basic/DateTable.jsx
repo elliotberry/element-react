@@ -212,7 +212,7 @@ export default class DateTable extends Component {
     return classes.join(' ');
   }
 
-  getMarkedRangeRows()[] {
+  getMarkedRangeRows() {
     const { showWeekNumber, minDate, selectionMode, rangeState } = this.props
     const rows = this.getRows();
     if (!(selectionMode === SELECTION_MODES.RANGE && rangeState.selecting && rangeState.endDate instanceof Date)) return rows;

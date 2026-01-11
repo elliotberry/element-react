@@ -95,7 +95,7 @@ export default class TimeRangePanel extends PopperBase {
 
   // type = hours | minutes | seconds
   // date: {type}
-  handleChange(date: { hours?, minutes?, seconds? }, field) {
+  handleChange(date, field) {
     const ndate = this.state[field];
 
     if (date.hours !== undefined) {

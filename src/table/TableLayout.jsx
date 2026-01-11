@@ -4,13 +4,14 @@ import { Component, PropTypes } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 
 import Table from './Table';
+import {
   TableLayoutProps,
   TableLayoutState,
 } from './Types';
 
 import { getScrollBarWidth, getValueByPath } from "./utils";
 
-export default class TableLayout extends Component<TableLayoutProps, TableLayoutState> {
+export default class TableLayout extends Component {
   static childContextTypes = {
     layout: PropTypes.any,
   };

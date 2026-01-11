@@ -3,14 +3,14 @@ import { throttle } from 'throttle-debounce';
 import { Component, PropTypes } from '../../libs';
 import Checkbox from '../checkbox';
 import FilterPannel from './FilterPannel';
-
+import {
   TableHeaderProps,
   _Column,
 } from './Types';
 
 const _document = (document);
 
-export default class TableHeader extends Component<TableHeaderProps> {
+export default class TableHeader extends Component {
   static contextTypes = {
     tableStore: PropTypes.any,
     layout: PropTypes.any,
@@ -37,7 +37,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     return this.props.tableStoreState.rightFixedColumns.length;
   }
 
-  handleMouseMove(column, event<HTMLTableCellElement>) {
+  handleMouseMove(column, event) {
     if (!column.resizable) return;
     if (column.subColumns && column.subColumns.length) return;
 
@@ -59,7 +59,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     }
   }
 
-  handleMouseDown(column, event<HTMLTableCellElement>) {
+  handleMouseDown(column, event) {
     if (this.draggingColumn) {
       this.dragging = true;
 
@@ -126,7 +126,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     _document.body.style.cursor = "";
   }
 
-  handleHeaderClick(column, event<HTMLTableCellElement>) {
+    handleHeaderClick(column, event) {
     if (column.sortable && !column.filters) {
       this.handleSortClick(column, null, event);
     } else if (column.filters && !column.sortable) {
@@ -166,7 +166,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     this.dispatchEvent('onHeaderClick', column, event)
   }
 
-  handleFilterClick(column, event?) {
+    handleFilterClick(column, event) {
     if (event) {
       event.stopPropagation();
       event.nativeEvent.stopImmediatePropagation();
@@ -201,7 +201,7 @@ export default class TableHeader extends Component<TableHeaderProps> {
     }
   }
 
-  renderHeader(column).Node {
+    renderHeader(column) {
     const { type } = column;
     if (type === 'expand') {
       return column.label || '';
